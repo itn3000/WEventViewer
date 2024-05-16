@@ -2,17 +2,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:WEventViewer.ViewModel"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="WEventViewer.OpenLogWindow"
         Title="OpenLogWindow">
-  <StackPanel>
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+  <Design.DataContext>
+    <vm:OpenLogWindowViewModel/>
+  </Design.DataContext>
+  <StackPanel HorizontalAlignment="Stretch">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
       <Label Content="abc" Margin="10,10,10,10" HorizontalAlignment="Left"/>
-      <TextBox Margin="10,10,10,10" Padding="50,0,0,0" HorizontalAlignment="Stretch"/>
+      <TextBox Margin="10,10,10,10" Padding="50,0,0,0" HorizontalAlignment="Stretch" Text="{Binding $parent.$parent.LogName, Mode=TwoWay}"/>
     </StackPanel>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
       <Label Content="abc" Margin="10,10,10,10" HorizontalAlignment="Left"/>
-      <TextBox Margin="10,10,10,10" Padding="200,0,0,0" HorizontalAlignment="Stretch"/>
+      <TextBox Margin="10,10,10,10" Padding="0,0,0,0" HorizontalAlignment="Stretch"/>
     </StackPanel>
   </StackPanel>
 </Window>

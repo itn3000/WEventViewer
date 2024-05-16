@@ -2,13 +2,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:WEventViewer.ViewModel"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="WEventViewer.MainWindow"
         Title="WEventViewer">
+  <Design.DataContext>
+    <vm:MainWindowViewModel></vm:MainWindowViewModel>
+  </Design.DataContext>
   <StackPanel Orientation="Vertical">
     <Menu DockPanel.Dock="Top">
       <MenuItem Header="_File">
-        <MenuItem Header="_Open"/>
+        <MenuItem Header="_Open" Command="{Binding $parent.$parent.$parent.$parent.OpenCommand}"/>
       </MenuItem>
       <MenuItem Header="_About"/>
     </Menu>
