@@ -1,4 +1,5 @@
 ﻿using Avalonia.Data.Converters;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace WEventViewer.ViewModel
 {
@@ -67,7 +69,14 @@ namespace WEventViewer.ViewModel
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PathType)));
             }
         }
-
+        public OpenLogWindowViewModel()
+        {
+            IsOk = false;
+            OkCommand = new RelayCommand(() => IsOk = true);
+        }
+        public bool IsOk;
+        public ICommand OkCommand;
         public event PropertyChangedEventHandler? PropertyChanged;
+
     }
 }

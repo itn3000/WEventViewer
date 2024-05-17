@@ -47,10 +47,11 @@ namespace WEventViewer.Model
     {
         List<LogRecord> records = [];
         public IEnumerable<LogRecord> Records => records;
-        public async Task Load(string logName, PathType pathType, string query, CancellationToken token)
+        public async Task Load(string logName, PathType pathType, string? query, CancellationToken token, IProgress<long> progress)
         {
             var lst = new List<LogRecord>();
             using var evreader = new EventLogReader(new EventLogQuery(logName, pathType, query));
+            long count = 0;
             while(!token.IsCancellationRequested)
             {
                 await Task.Yield();
@@ -60,7 +61,13 @@ namespace WEventViewer.Model
                     break;
                 }
                 lst.Add(record.ToLogRecord());
+                count++;
+                if((count & 0xff) == 0)
+                {
+                    progress?.Report(count);
+                }
             }
+            progress?.Report(count);
             while(!token.IsCancellationRequested)
             {
                 var old = records;
