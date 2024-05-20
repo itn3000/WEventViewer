@@ -7,6 +7,7 @@ using System.Diagnostics.Eventing;
 using System.Diagnostics.Eventing.Reader;
 using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Collections.ObjectModel;
 
 namespace WEventViewer.Model
 {
@@ -45,11 +46,14 @@ namespace WEventViewer.Model
     }
     internal class EventLogRepository
     {
-        List<LogRecord> records = [];
-        public IEnumerable<LogRecord> Records => records;
+        ObservableCollection<LogRecord> records = [];
+        public ObservableCollection<LogRecord> Records => records;
+        public void Clear()
+        {
+            records.Clear();
+        }
         public async Task Load(string logName, PathType pathType, string? query, CancellationToken token, IProgress<long> progress)
         {
-            var lst = new List<LogRecord>();
             using var evreader = new EventLogReader(new EventLogQuery(logName, pathType, query));
             long count = 0;
             while(!token.IsCancellationRequested)
@@ -60,7 +64,7 @@ namespace WEventViewer.Model
                 {
                     break;
                 }
-                lst.Add(record.ToLogRecord());
+                records.Add(record.ToLogRecord());
                 count++;
                 if((count & 0xff) == 0)
                 {
@@ -68,15 +72,6 @@ namespace WEventViewer.Model
                 }
             }
             progress?.Report(count);
-            while(!token.IsCancellationRequested)
-            {
-                var old = records;
-                var exchanged = Interlocked.CompareExchange(ref records, lst, old);
-                if(exchanged == old)
-                {
-                    break;
-                }
-            }
         }
     }
 }

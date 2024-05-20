@@ -13,30 +13,41 @@ using WEventViewer.Model;
 using System.Diagnostics.Eventing.Reader;
 using System.Diagnostics.Eventing;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace WEventViewer.ViewModel
 {
-    class OpenLogRequest(MainWindowViewModel vm, string logName, PathType pathType)
+    class OpenLogRequest
     {
-        public string LogName => logName;
-        public PathType PathType => pathType;
+        public string? LogName { get; set; }
+        public PathType PathType { get; set; }
     }
     internal class MainWindowViewModel
     {
         EventLogRepository? _EventLogRepository;
-        public MainWindowViewModel(): this(null)
-        {
-        }
-        public MainWindowViewModel(EventLogRepository repository)
+        public MainWindowViewModel()
         {
             _Progress = new Progress<long>(l => LogCount = l);
-            _EventLogRepository = repository;
+            _EventLogRepository = new EventLogRepository();
+            _EventLogRepository.Records.CollectionChanged += Records_CollectionChanged;
             OpenCommand = new RelayCommand(async () =>
             {
-                var ret = WeakReferenceMessenger.Default.Send<OpenLogRequest>(new OpenLogRequest(this, "", PathType.LogName));
-                await _EventLogRepository.Load(ret.LogName, ret.PathType, null, default, _Progress);
+                var ret = WeakReferenceMessenger.Default.Send<OpenLogRequest>(new OpenLogRequest());
+                if(ret.LogName != null)
+                {
+                    await _EventLogRepository.Load(ret.LogName, ret.PathType, null, default, _Progress);
+                }
             });
         }
+
+        private void Records_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if(_EventLogRepository != null)
+            {
+                LogCount = _EventLogRepository.Records.Count;
+            }
+        }
+
         Progress<long> _Progress;
         public ICommand OpenCommand;
         long _LogCount;
@@ -49,6 +60,6 @@ namespace WEventViewer.ViewModel
 
             }
         }
-        public ObservableCollection<LogRecord> LogRecords;
+        public ObservableCollection<LogRecord> LogRecords => _EventLogRepository.Records;
     }
 }
