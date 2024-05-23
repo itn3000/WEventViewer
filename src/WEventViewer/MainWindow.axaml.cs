@@ -9,8 +9,8 @@ public partial class MainWindow : Window
 {
     public MainWindow()
     {
-        InitializeComponent();
         DataContext = new MainWindowViewModel();
+        InitializeComponent();
         WeakReferenceMessenger.Default.Register<MainWindow, OpenLogRequest>(this, async (recpient, req) =>
         {
             var vm = new OpenLogWindowViewModel();
@@ -18,9 +18,11 @@ public partial class MainWindow : Window
             {
                 DataContext = vm
             };
-            await dlg.ShowDialog(this);
-            req.PathType = vm.PathType;
-            req.LogName = vm.LogName;
+            var ret = await dlg.ShowDialog<OpenLogWindowViewModel>(this);
+            if(DataContext is MainWindowViewModel mwvm)
+            {
+                WeakReferenceMessenger.Default.Send<LoadLogMessage>(new(vm.LogName, vm.PathType));
+            }
         });
     }
 }

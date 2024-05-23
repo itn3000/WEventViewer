@@ -72,7 +72,10 @@ namespace WEventViewer.ViewModel
         public OpenLogWindowViewModel()
         {
             IsOk = false;
-            OkCommand = new RelayCommand(() => IsOk = true);
+            OkCommand = new RelayCommand(() =>
+            {
+                IsOk = true;
+            });
         }
         public bool IsOk;
         public ICommand OkCommand;

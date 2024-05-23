@@ -7,13 +7,14 @@ using Avalonia.Controls;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.Mvvm.Collections;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.Windows.Input;
 using WEventViewer.Model;
 using System.Diagnostics.Eventing.Reader;
 using System.Diagnostics.Eventing;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using Avalonia;
 
 namespace WEventViewer.ViewModel
 {
@@ -22,6 +23,7 @@ namespace WEventViewer.ViewModel
         public string? LogName { get; set; }
         public PathType PathType { get; set; }
     }
+    record class LoadLogMessage(string logName, PathType pathType);
     internal class MainWindowViewModel
     {
         EventLogRepository? _EventLogRepository;
@@ -30,13 +32,13 @@ namespace WEventViewer.ViewModel
             _Progress = new Progress<long>(l => LogCount = l);
             _EventLogRepository = new EventLogRepository();
             _EventLogRepository.Records.CollectionChanged += Records_CollectionChanged;
-            OpenCommand = new RelayCommand(async () =>
+            OpenCommand = new RelayCommand(() =>
             {
-                var ret = WeakReferenceMessenger.Default.Send<OpenLogRequest>(new OpenLogRequest());
-                if(ret.LogName != null)
-                {
-                    await _EventLogRepository.Load(ret.LogName, ret.PathType, null, default, _Progress);
-                }
+                WeakReferenceMessenger.Default.Send<OpenLogRequest>(new OpenLogRequest());
+            });
+            WeakReferenceMessenger.Default.Register<MainWindowViewModel, LoadLogMessage>(this, async (vm, msg) =>
+            {
+                await _EventLogRepository.Load(msg.logName, msg.pathType, null, default, _Progress);
             });
         }
 
@@ -49,7 +51,7 @@ namespace WEventViewer.ViewModel
         }
 
         Progress<long> _Progress;
-        public ICommand OpenCommand;
+        public ICommand OpenCommand { get; private set; }
         long _LogCount;
         public long LogCount
         {

@@ -3,20 +3,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:WEventViewer.ViewModel"
+		xmlns:local="using:WEventViewer"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="WEventViewer.OpenLogWindow"
+		x:DataType="vm:OpenLogWindowViewModel"
         Title="OpenLogWindow">
-  <Design.DataContext>
-    <vm:OpenLogWindowViewModel/>
-  </Design.DataContext>
-  <StackPanel HorizontalAlignment="Stretch">
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-      <Label Content="abc" Margin="10,10,10,10" HorizontalAlignment="Left"/>
-      <TextBox Margin="10,10,10,10" Padding="50,0,0,0" HorizontalAlignment="Stretch" Text="{Binding $parent.$parent.LogName, Mode=TwoWay}"/>
-    </StackPanel>
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-      <Label Content="abc" Margin="10,10,10,10" HorizontalAlignment="Left"/>
-      <TextBox Margin="10,10,10,10" Padding="0,0,0,0" HorizontalAlignment="Stretch"/>
-    </StackPanel>
-  </StackPanel>
+	<Design.DataContext>
+		<vm:OpenLogWindowViewModel/>
+	</Design.DataContext>
+	<Window.Resources>
+		<vm:PathTypeValueConverter x:Key="PathTypeConverter"/>
+	</Window.Resources>
+	<StackPanel HorizontalAlignment="Stretch">
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+			<Label Content="LogName" Margin="10,10,10,10" HorizontalAlignment="Left"/>
+			<TextBox Margin="10,10,10,10" Padding="0,0,0,0" HorizontalAlignment="Stretch" Text="{Binding LogName, Mode=TwoWay}"/>
+		</StackPanel>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+			<Label Content="PathType" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+			<TextBox Margin="10,10,10,10" Padding="10,0,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Path=PathType, Mode=TwoWay,Converter={StaticResource PathTypeConverter}}"/>
+		</StackPanel>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+			<Button Content="OK"/>
+			<Button Content="Cancel"/>
+		</StackPanel>
+	</StackPanel>
 </Window>

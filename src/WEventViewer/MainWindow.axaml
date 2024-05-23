@@ -5,22 +5,24 @@
         xmlns:vm="using:WEventViewer.ViewModel"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="WEventViewer.MainWindow"
+		x:DataType="vm:MainWindowViewModel"
         Title="WEventViewer">
-  <Design.DataContext>
-    <vm:MainWindowViewModel></vm:MainWindowViewModel>
-  </Design.DataContext>
-  <StackPanel Orientation="Vertical">
-    <Menu DockPanel.Dock="Top">
-      <MenuItem Header="_File">
-        <MenuItem Header="_Open" Command="{Binding $parent.$parent.$parent.DataContext.OpenCommand}"/>
-      </MenuItem>
-      <MenuItem Header="_About"/>
-    </Menu>
-    <DataGrid 
-      BorderBrush="Black" 
-      Margin="20" 
-      BorderThickness="1" 
-      IsReadOnly="True">
-    </DataGrid>
-  </StackPanel>
+	<Design.DataContext>
+		<vm:MainWindowViewModel></vm:MainWindowViewModel>
+	</Design.DataContext>
+	
+	<StackPanel Orientation="Vertical">
+		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="_File">
+				<MenuItem Header="_Open" Command="{Binding OpenCommand}"/>
+			</MenuItem>
+			<MenuItem Header="_About"/>
+		</Menu>
+		<DataGrid
+		  BorderBrush="Black"
+		  Margin="20"
+		  BorderThickness="1"
+		  IsReadOnly="True">
+		</DataGrid>
+	</StackPanel>
 </Window>

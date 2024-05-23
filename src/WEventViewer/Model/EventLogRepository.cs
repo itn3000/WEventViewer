@@ -8,6 +8,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace WEventViewer.Model
 {
@@ -52,23 +53,32 @@ namespace WEventViewer.Model
         {
             records.Clear();
         }
+        static readonly DiagnosticListener _DS = new DiagnosticListener(nameof(EventLogRepository));
         public async Task Load(string logName, PathType pathType, string? query, CancellationToken token, IProgress<long> progress)
         {
             using var evreader = new EventLogReader(new EventLogQuery(logName, pathType, query));
             long count = 0;
-            while(!token.IsCancellationRequested)
+            while (!token.IsCancellationRequested)
             {
                 await Task.Yield();
                 using var record = evreader.ReadEvent();
-                if(record == null)
+                try
                 {
-                    break;
+                    if (record == null)
+                    {
+                        break;
+                    }
+                    records.Add(record.ToLogRecord());
+                    count++;
+                    if ((count & 0xff) == 0)
+                    {
+                        progress?.Report(count);
+                    }
                 }
-                records.Add(record.ToLogRecord());
-                count++;
-                if((count & 0xff) == 0)
+                catch (Exception ex)
                 {
-                    progress?.Report(count);
+                    _DS.Write("Error", new { Exception = ex, LogRecordDescription = record.FormatDescription() });
+                    throw;
                 }
             }
             progress?.Report(count);
