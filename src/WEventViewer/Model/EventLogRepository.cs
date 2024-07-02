@@ -37,12 +37,66 @@ namespace WEventViewer.Model
         string Formatted);
     internal static class EventLogRepositoryExtension
     {
+        static readonly DiagnosticListener _DS = new DiagnosticListener(nameof(EventLogRepositoryExtension));
         public static LogRecord ToLogRecord(this EventRecord record)
         {
-            return new LogRecord(record.ActivityId, record.Id, record.Keywords, record.KeywordsDisplayNames.ToArray(), record.Level,
-                record.LevelDisplayName, record.LogName, record.MachineName, record.Opcode, record.OpcodeDisplayName, record.ProcessId,
+            var keywords = record.Keywords;
+            var keywordDisplayNames = GetKeywordsDisplayNames(record);
+            var levelName = GetLevelDisplayName(record);
+            var taskDisplayName = GetTaskDisplayName(record);
+            var opcodeDisplayName = GetOpCodeDisplayName(record);
+            return new LogRecord(record.ActivityId, record.Id, keywords, keywordDisplayNames, record.Level,
+                levelName, record.LogName, record.MachineName, record.Opcode, opcodeDisplayName, record.ProcessId,
                 record.Properties.Select(x => x.Value).ToArray(), record.ProviderId, record.ProviderName, record.Qualifiers, record.RecordId, record.RelatedActivityId,
-                record.Task, record.TaskDisplayName, record.ThreadId, record.TimeCreated, record.Version, record.FormatDescription());
+                record.Task, taskDisplayName, record.ThreadId, record.TimeCreated, record.Version, record.FormatDescription());
+        }
+        static string[] GetKeywordsDisplayNames(EventRecord record)
+        {
+            try
+            {
+                return record.KeywordsDisplayNames.ToArray();
+            }
+            catch (EventLogException ex)
+            {
+                _DS.Write("Exception", new { Property = "KeyworkDisplayName", ex, record.LogName, record.ProviderName, record.Id });
+                return Array.Empty<string>();
+            }
+        }
+        static string GetLevelDisplayName(EventRecord record)
+        {
+            try
+            {
+                return record.LevelDisplayName;
+            }
+            catch (EventLogException ex)
+            {
+                _DS.Write("Exception", new { Property = "LevelDisplayName", ex, record.LogName, record.ProviderName, record.Id });
+                return string.Empty;
+            }
+        }
+        static string GetTaskDisplayName(EventRecord record)
+        {
+            try
+            {
+                return record.TaskDisplayName;
+            }
+            catch (EventLogException ex)
+            {
+                _DS.Write("Exception", new { Property = "TaskDisplayName", ex = ex, record.LogName, record.ProviderName, record.Id });
+                return string.Empty;
+            }
+        }
+        static string GetOpCodeDisplayName(EventRecord record)
+        {
+            try
+            {
+                return record.OpcodeDisplayName;
+            }
+            catch (EventLogException ex)
+            {
+                _DS.Write("Exception", new { Property = "OpcodeDisplayName", ex, record.LogName, record.ProviderName, record.Id });
+                return string.Empty;
+            }
         }
     }
     internal class EventLogRepository
@@ -80,7 +134,12 @@ namespace WEventViewer.Model
                     _DS.Write("Error", new { Exception = ex, LogRecordDescription = record.FormatDescription() });
                     throw;
                 }
+                if(records.Count >= 1000)
+                {
+                    break;
+                }
             }
+            
             progress?.Report(count);
         }
     }

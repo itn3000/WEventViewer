@@ -24,8 +24,8 @@
 			<TextBox Margin="10,10,10,10" Padding="10,0,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Path=PathType, Mode=TwoWay,Converter={StaticResource PathTypeConverter}}"/>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-			<Button Content="OK"/>
-			<Button Content="Cancel"/>
+			<Button Content="OK" Command="{ Binding OkCommand }"/>
+			<Button Content="Cancel" Command="{ Binding CancelCommand }"/>
 		</StackPanel>
 	</StackPanel>
 </Window>

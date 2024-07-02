@@ -5,6 +5,7 @@ using WEventViewer.ViewModel;
 
 namespace WEventViewer;
 
+internal record class OpenErrorLogWindow(string message);
 public partial class MainWindow : Window
 {
     public MainWindow()
@@ -18,11 +19,17 @@ public partial class MainWindow : Window
             {
                 DataContext = vm
             };
-            var ret = await dlg.ShowDialog<OpenLogWindowViewModel>(this);
+            var ret = await dlg.ShowDialog<bool>(this);
             if(DataContext is MainWindowViewModel mwvm)
             {
                 WeakReferenceMessenger.Default.Send<LoadLogMessage>(new(vm.LogName, vm.PathType));
             }
+        });
+        WeakReferenceMessenger.Default.Register<MainWindow, OpenErrorLogWindow>(this, async (mw, msg) =>
+        {
+            var vm = new ErrorWindowViewModel(msg.message);
+            var dlg = new ErrorWindow() { DataContext = vm };
+            await dlg.ShowDialog(mw);
         });
     }
 }

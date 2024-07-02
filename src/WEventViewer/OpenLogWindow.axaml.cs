@@ -5,18 +5,15 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace WEventViewer;
 
+internal record class OpenDialogResultMessage(bool isOk);
 public partial class OpenLogWindow : Window
 {
-    internal record class OpenDialogResultMessage(bool isOk);
     public OpenLogWindow()
     {
         InitializeComponent();
         WeakReferenceMessenger.Default.Register<OpenLogWindow, OpenDialogResultMessage>(this, (recipient, msg) =>
         {
-            if(msg.isOk)
-            {
-                
-            }
+            this.Close(msg.isOk);
         });
     }
 }

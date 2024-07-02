@@ -1,5 +1,6 @@
 ﻿using Avalonia.Data.Converters;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -69,16 +70,23 @@ namespace WEventViewer.ViewModel
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PathType)));
             }
         }
+        public string A { get; set; } = "";
         public OpenLogWindowViewModel()
         {
             IsOk = false;
             OkCommand = new RelayCommand(() =>
             {
                 IsOk = true;
-            });
+                WeakReferenceMessenger.Default.Send<OpenDialogResultMessage>(new(true));
+            }, () => true);
+            CancelCommand = new RelayCommand(() => { 
+                IsOk = false;
+                WeakReferenceMessenger.Default.Send<OpenDialogResultMessage>(new(false));
+            }, () => true);
         }
         public bool IsOk;
-        public ICommand OkCommand;
+        public ICommand OkCommand { get; private set; }
+        public ICommand CancelCommand { get; private set; }
         public event PropertyChangedEventHandler? PropertyChanged;
 
     }

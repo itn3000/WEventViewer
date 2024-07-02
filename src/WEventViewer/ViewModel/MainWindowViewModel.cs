@@ -15,6 +15,9 @@ using System.Diagnostics.Eventing;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Avalonia;
+using System.ComponentModel;
+using System.Security.Cryptography.X509Certificates;
+
 
 namespace WEventViewer.ViewModel
 {
@@ -24,12 +27,15 @@ namespace WEventViewer.ViewModel
         public PathType PathType { get; set; }
     }
     record class LoadLogMessage(string logName, PathType pathType);
-    internal class MainWindowViewModel
+    internal class MainWindowViewModel : ObservableRecipient
     {
-        EventLogRepository? _EventLogRepository;
+        EventLogRepository _EventLogRepository;
         public MainWindowViewModel()
         {
-            _Progress = new Progress<long>(l => LogCount = l);
+            _Progress = new Progress<long>(l =>
+            {
+                _LogCount = l;
+            });
             _EventLogRepository = new EventLogRepository();
             _EventLogRepository.Records.CollectionChanged += Records_CollectionChanged;
             OpenCommand = new RelayCommand(() =>
@@ -38,7 +44,14 @@ namespace WEventViewer.ViewModel
             });
             WeakReferenceMessenger.Default.Register<MainWindowViewModel, LoadLogMessage>(this, async (vm, msg) =>
             {
-                await _EventLogRepository.Load(msg.logName, msg.pathType, null, default, _Progress);
+                try
+                {
+                    await _EventLogRepository.Load(msg.logName, msg.pathType, null, default, _Progress);
+                }
+                catch (Exception ex)
+                {
+                    WeakReferenceMessenger.Default.Send(new OpenErrorLogWindow(ex.ToString()));
+                }
             });
         }
 
@@ -63,5 +76,10 @@ namespace WEventViewer.ViewModel
             }
         }
         public ObservableCollection<LogRecord> LogRecords => _EventLogRepository.Records;
+    }
+    public class MyRecord(string a, int b)
+    {
+        public string A => a;
+        public int B => b;
     }
 }
