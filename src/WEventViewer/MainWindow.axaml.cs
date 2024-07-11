@@ -31,5 +31,6 @@ public partial class MainWindow : Window
             var dlg = new ErrorWindow() { DataContext = vm };
             await dlg.ShowDialog(mw);
         });
+        WeakReferenceMessenger.Default.Register<MainWindow, MainWindowCloseMessage>(this, (w, msg) => w.Close());
     }
 }

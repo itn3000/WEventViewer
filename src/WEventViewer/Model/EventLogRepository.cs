@@ -7,8 +7,10 @@ using System.Diagnostics.Eventing;
 using System.Diagnostics.Eventing.Reader;
 using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
+using R3.Collections;
 
 namespace WEventViewer.Model
 {
@@ -108,13 +110,15 @@ namespace WEventViewer.Model
             records.Clear();
         }
         static readonly DiagnosticListener _DS = new DiagnosticListener(nameof(EventLogRepository));
-        public async Task Load(string logName, PathType pathType, string? query, CancellationToken token, IProgress<long> progress)
+        public async Task Load(string logName, PathType pathType, string? query, CancellationToken token, Action<IList<LogRecord>> dispatch)
         {
             using var evreader = new EventLogReader(new EventLogQuery(logName, pathType, query));
+            Clear();
             long count = 0;
+            List<LogRecord> lst = [];
+            await Task.Delay(10).ConfigureAwait(false);
             while (!token.IsCancellationRequested)
             {
-                await Task.Yield();
                 using var record = evreader.ReadEvent();
                 try
                 {
@@ -122,25 +126,23 @@ namespace WEventViewer.Model
                     {
                         break;
                     }
-                    records.Add(record.ToLogRecord());
+                    lst.Add(record.ToLogRecord());
                     count++;
                     if ((count & 0xff) == 0)
                     {
-                        progress?.Report(count);
+                        dispatch(lst);
+                        lst.Clear();
                     }
                 }
                 catch (Exception ex)
                 {
                     _DS.Write("Error", new { Exception = ex, LogRecordDescription = record.FormatDescription() });
-                    throw;
-                }
-                if(records.Count >= 1000)
-                {
-                    break;
                 }
             }
-            
-            progress?.Report(count);
+            if (lst.Count > 0)
+            {
+                dispatch(lst);
+            }
         }
     }
 }

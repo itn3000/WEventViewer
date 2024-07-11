@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:WEventViewer.ViewModel"
 		xmlns:local="using:WEventViewer"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="350"
         x:Class="WEventViewer.OpenLogWindow"
 		x:DataType="vm:OpenLogWindowViewModel"
         Title="OpenLogWindow">
@@ -14,14 +14,14 @@
 	<Window.Resources>
 		<vm:PathTypeValueConverter x:Key="PathTypeConverter"/>
 	</Window.Resources>
-	<StackPanel HorizontalAlignment="Stretch">
-		<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+	<StackPanel HorizontalAlignment="Stretch" Margin="20">
+		<StackPanel Orientation="Horizontal">
 			<Label Content="LogName" Margin="10,10,10,10" HorizontalAlignment="Left"/>
-			<TextBox Margin="10,10,10,10" Padding="0,0,0,0" HorizontalAlignment="Stretch" Text="{Binding LogName, Mode=TwoWay}"/>
+			<TextBox HorizontalContentAlignment="Stretch" Margin="10,10,10,10" Padding="0,0,0,0" HorizontalAlignment="Right" Text="{Binding LogName, Mode=TwoWay}" MinWidth="200"/>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
 			<Label Content="PathType" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-			<TextBox Margin="10,10,10,10" Padding="10,0,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Path=PathType, Mode=TwoWay,Converter={StaticResource PathTypeConverter}}"/>
+			<TextBox Margin="10,10,10,10" Padding="10,0,10,10" TextAlignment="Center" Text="{Binding Path=PathType, Mode=TwoWay,Converter={StaticResource PathTypeConverter}}"/>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 			<Button Content="OK" Command="{ Binding OkCommand }"/>

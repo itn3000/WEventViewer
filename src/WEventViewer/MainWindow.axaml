@@ -11,20 +11,22 @@
 		<vm:MainWindowViewModel></vm:MainWindowViewModel>
 	</Design.DataContext>
 	
-	<StackPanel Orientation="Vertical">
-		<Menu DockPanel.Dock="Top">
+	<StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+		<Menu DockPanel.Dock="Top" BorderBrush="Black" BorderThickness="1">
 			<MenuItem Header="_File">
 				<MenuItem Header="_Open" Command="{Binding OpenCommand}"/>
+				<MenuItem Header="_Close" Command="{Binding CloseCommand}"/>
 			</MenuItem>
 			<MenuItem Header="_About"/>
 		</Menu>
-		<ScrollViewer>
+		<ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20">
 			<DataGrid
 			  BorderBrush="Black"
 			  Margin="20"
 			  BorderThickness="1"
-			  IsReadOnly="True" ItemsSource="{Binding LogRecords}" VerticalAlignment="Stretch" MaxHeight="500">
+			  IsReadOnly="True" ItemsSource="{Binding LogRecords}" VerticalAlignment="Stretch" MaxHeight="500" MinHeight="200">
 				<DataGrid.Columns>
+					<DataGridTextColumn Header="TimeCreated" Binding="{Binding TimeCreated}"/>
 					<DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
 					<DataGridTextColumn Header="LogName" Binding="{Binding LogName}"/>
 					<DataGridTextColumn Header="Description" Binding="{Binding Formatted}"/>
@@ -32,8 +34,9 @@
 				<DataGrid.RowHeight>50</DataGrid.RowHeight>
 			</DataGrid>
 		</ScrollViewer>
-		<StackPanel Orientation="Horizontal">
-			<Label Content="{Binding LogCount}"/>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
+			<Label Content="{Binding LogCount,Mode=OneWay}"/>
+			<Label Content="{Binding LoadStatus,Mode=OneWay}"/>
 		</StackPanel>
 	</StackPanel>
 </Window>
