@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace WEventViewer.ViewModel
 {
-    internal class PathTypeValueConverter : IValueConverter
+    internal partial class PathTypeValueConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
@@ -51,7 +51,7 @@ namespace WEventViewer.ViewModel
             throw new ArgumentException($"ConvertBack: unsupported type({value?.GetType()})");
         }
     }
-    internal class OpenLogWindowViewModel : INotifyPropertyChanged
+    internal partial class OpenLogWindowViewModel : INotifyPropertyChanged
     {
         string _LogName = "";
         public string LogName { get => _LogName; set
@@ -88,6 +88,11 @@ namespace WEventViewer.ViewModel
         public ICommand OkCommand { get; private set; }
         public ICommand CancelCommand { get; private set; }
         public event PropertyChangedEventHandler? PropertyChanged;
-
+        [RelayCommand]
+        public void OnSizeChanged(int WindowWidth)
+        {
+            LogNameWidth = WindowWidth;
+        }
+        public int LogNameWidth { get; set; }
     }
 }

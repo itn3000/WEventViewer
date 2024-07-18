@@ -46,6 +46,7 @@ namespace WEventViewer.Model
             var keywordDisplayNames = GetKeywordsDisplayNames(record);
             var levelName = GetLevelDisplayName(record);
             var taskDisplayName = GetTaskDisplayName(record);
+            var x = "hogehoge";
             var opcodeDisplayName = GetOpCodeDisplayName(record);
             return new LogRecord(record.ActivityId, record.Id, keywords, keywordDisplayNames, record.Level,
                 levelName, record.LogName, record.MachineName, record.Opcode, opcodeDisplayName, record.ProcessId,

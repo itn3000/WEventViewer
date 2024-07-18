@@ -34,7 +34,7 @@
 				<DataGrid.RowHeight>50</DataGrid.RowHeight>
 			</DataGrid>
 		</ScrollViewer>
-		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20" VerticalAlignment="Bottom">
 			<Label Content="{Binding LogCount,Mode=OneWay}"/>
 			<Label Content="{Binding LoadStatus,Mode=OneWay}"/>
 		</StackPanel>
