@@ -45,7 +45,6 @@ namespace WEventViewer.ViewModel
                 });
             });
             _EventLogRepository = new EventLogRepository();
-            //_EventLogRepository.Records.CollectionChanged;
             OpenCommand = new RelayCommand(() =>
             {
                 LoadStatus = "Loading";
@@ -58,10 +57,7 @@ namespace WEventViewer.ViewModel
                 {
                     Dispatcher.UIThread.Invoke(() =>
                     {
-                        foreach (var item in lst)
-                        {
-                            _EventLogRepository.Records.Add(item);
-                        }
+                        _EventLogRepository.Records.AddRange(lst);
                         OnPropertyChanged(nameof(LogCount));
                         OnPropertyChanged(nameof(LogRecords));
                     });
@@ -70,7 +66,7 @@ namespace WEventViewer.ViewModel
                     {
                         if (t.IsFaulted)
                         {
-                            WeakReferenceMessenger.Default.Send(new OpenErrorLogWindow(t.Exception.ToString()));
+                            Dispatcher.UIThread.Invoke(() => WeakReferenceMessenger.Default.Send(new OpenErrorLogWindow(t.Exception.ToString())));
                         }
                         Dispatcher.UIThread.Invoke(() =>
                         {
@@ -80,12 +76,7 @@ namespace WEventViewer.ViewModel
                     });
             });
             CloseCommand = new RelayCommand(() => WeakReferenceMessenger.Default.Send(new MainWindowCloseMessage()));
-        }
-
-        private void Records_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
-            //OnPropertyChanged(nameof(LogCount));
-            //OnPropertyChanged(nameof(LogRecords));
+            LoadStatus = string.Empty;
         }
 
         Progress<long> _Progress;
@@ -106,8 +97,22 @@ namespace WEventViewer.ViewModel
                 }
             }
         }
-        public ObservableCollection<LogRecord> LogRecords => _EventLogRepository.Records;
+        public RangedObservableCollection<LogRecord> LogRecords => _EventLogRepository.Records;
         public string LoadStatus { get; private set; }
+        double _CurrentWindowHeight;
+        public double CurrentWindowHeight
+        {
+            get => _CurrentWindowHeight;
+            set
+            {
+                _CurrentWindowHeight = value;
+                OnPropertyChanged(nameof(CurrentWindowHeight));
+                OnPropertyChanged(nameof(ScrollViewerHeight));
+                OnPropertyChanged(nameof(LogViewMaxHeight));
+            }
+        }
+        public double LogViewMaxHeight => ScrollViewerHeight - 40;
+        public double ScrollViewerHeight => CurrentWindowHeight - 160;
     }
     public class MyRecord(string a, int b)
     {

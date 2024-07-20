@@ -1,9 +1,11 @@
-﻿using Avalonia.Data.Converters;
+﻿using Avalonia.Controls;
+using Avalonia.Data.Converters;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.Linq;
@@ -51,8 +53,14 @@ namespace WEventViewer.ViewModel
             throw new ArgumentException($"ConvertBack: unsupported type({value?.GetType()})");
         }
     }
+    public class PathTypeDefinition(PathType pathType, string displayName)
+    {
+        public PathType PathType => pathType;
+        public string DisplayName => displayName;
+    }
     internal partial class OpenLogWindowViewModel : INotifyPropertyChanged
     {
+        private readonly static DiagnosticSource _DS = new DiagnosticListener("WEventView.OpenLogWindowViewMode");
         string _LogName = "";
         public string LogName { get => _LogName; set
             {
@@ -70,6 +78,29 @@ namespace WEventViewer.ViewModel
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PathType)));
             }
         }
+        PathTypeDefinition _CurrentSelected = _PathTypes[0];
+        public PathTypeDefinition CurrentSelected
+        {
+            get => _CurrentSelected;
+            set
+            {
+                _CurrentSelected = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSelected)));
+            }
+        }
+
+        [RelayCommand]
+        void OnPathTypeChanged(Avalonia.Controls.SelectionChangedEventArgs evargs)
+        {
+            _DS.Write("OnPathTypeChanged", evargs);
+        }
+        static readonly PathTypeDefinition[] _PathTypes = [new PathTypeDefinition(PathType.LogName, "LogName"), new PathTypeDefinition(PathType.FilePath, "FilePath")];
+        public IList<PathTypeDefinition> PathTypes
+        {
+            get => _PathTypes;
+            private set { }
+        }
+        public string[] Hoge => ["a", "b", "c"];
         public string A { get; set; } = "";
         public OpenLogWindowViewModel()
         {

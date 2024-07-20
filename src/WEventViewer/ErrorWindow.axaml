@@ -3,6 +3,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		MinHeight="300"
+		MaxHeight="500"
+		MaxWidth="1000"
 		xmlns:vm="using:WEventViewer.ViewModel"
         x:Class="WEventViewer.ErrorWindow"
 		x:DataType="vm:ErrorWindowViewModel"
@@ -10,10 +13,10 @@
 	<Design.DataContext>
 		<vm:ErrorWindowViewModel></vm:ErrorWindowViewModel>
 	</Design.DataContext>
-	<StackPanel Orientation="Vertical" VerticalAlignment="Center">
-		<ScrollViewer AllowAutoHide="True" VerticalScrollBarVisibility="Auto">
+	<StackPanel Orientation="Vertical" VerticalAlignment="Stretch" MinHeight="200">
+		<ScrollViewer AllowAutoHide="True" VerticalScrollBarVisibility="Auto" Margin="10">
 			<TextBlock Text="{Binding Message}" TextWrapping="WrapWithOverflow"/>
 		</ScrollViewer>
-		<Button Content="Close"/>
+		<Button Content="Close" Margin="10"/>
 	</StackPanel>
 </Window>

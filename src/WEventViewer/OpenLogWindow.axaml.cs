@@ -16,8 +16,4 @@ public partial class OpenLogWindow : Window
             this.Close(msg.isOk);
         });
     }
-
-    private void Binding(object? sender, Avalonia.Controls.SizeChangedEventArgs e)
-    {
-    }
 }

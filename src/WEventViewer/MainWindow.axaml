@@ -6,12 +6,15 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="WEventViewer.MainWindow"
 		x:DataType="vm:MainWindowViewModel"
+		MinHeight="300"
+		MinWidth="400"
+		Height="{Binding Mode=OneWayToSource,Path=CurrentWindowHeight}"
         Title="WEventViewer">
 	<Design.DataContext>
 		<vm:MainWindowViewModel></vm:MainWindowViewModel>
 	</Design.DataContext>
 	
-	<StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+	<StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MaxHeight="{Binding $parent.Bounds.Height}">
 		<Menu DockPanel.Dock="Top" BorderBrush="Black" BorderThickness="1">
 			<MenuItem Header="_File">
 				<MenuItem Header="_Open" Command="{Binding OpenCommand}"/>
@@ -19,12 +22,12 @@
 			</MenuItem>
 			<MenuItem Header="_About"/>
 		</Menu>
-		<ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20">
+		<ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20" MinHeight="200" MinWidth="200" Height="{Binding Mode=OneWay,Path=ScrollViewerHeight}" Name="LogViewer">
 			<DataGrid
 			  BorderBrush="Black"
 			  Margin="20"
 			  BorderThickness="1"
-			  IsReadOnly="True" ItemsSource="{Binding LogRecords}" VerticalAlignment="Stretch" MaxHeight="500" MinHeight="200">
+			  IsReadOnly="True" ItemsSource="{Binding LogRecords}" VerticalAlignment="Stretch" MinHeight="200" Height="{Binding LogViewMaxHeight,Mode=OneWay}">
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="TimeCreated" Binding="{Binding TimeCreated}"/>
 					<DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
@@ -37,6 +40,8 @@
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20" VerticalAlignment="Bottom">
 			<Label Content="{Binding LogCount,Mode=OneWay}"/>
 			<Label Content="{Binding LoadStatus,Mode=OneWay}"/>
+			<Label Content="{Binding #LogViewer.Bounds.Height}"/>
+			<Label Content="{Binding ScrollViewerHeight}"/>
 		</StackPanel>
 	</StackPanel>
 </Window>

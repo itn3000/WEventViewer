@@ -14,8 +14,14 @@
 	<Window.Resources>
 		<vm:PathTypeValueConverter x:Key="PathTypeConverter"/>
 	</Window.Resources>
-	<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20">
-		<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Center">
 			<Label Content="LogName" 
 				   Margin="10,10,10,10" 
 				   HorizontalAlignment="Left" 
@@ -27,22 +33,35 @@
 					 Margin="10,10,10,10" 
 					 HorizontalAlignment="Right" 
 					 Text="{Binding LogName, Mode=TwoWay}"
-					 MinWidth="200" MaxWidth="1000"/>
+					 MinWidth="200" MaxWidth="1000"
+					 />
 		</StackPanel>
-		<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Center">
 			<Label Content="PathType" 
 				   Margin="10,10,10,10" 
 				   HorizontalAlignment="Left" 
 				   VerticalAlignment="Center"/>
-			<TextBox Margin="10,10,10,10" 
-					 HorizontalAlignment="Right" 
+			<!--<TextBox Margin="10,10,10,10" 
+					 HorizontalAlignment="Stretch" 
 					 TextAlignment="Left" 
 					 VerticalContentAlignment="Center"
-					 Text="{Binding Path=PathType, Mode=TwoWay,Converter={StaticResource PathTypeConverter}}"/>
+					 Text="{Binding Path=PathType, Mode=TwoWay,Converter={StaticResource PathTypeConverter}}"/>-->
+			<ComboBox
+				HorizontalAlignment="Stretch"
+				Margin="10"
+				ItemsSource="{Binding PathTypes}"
+				SelectedValue="{Binding CurrentSelected}"
+				>
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<Label Content="{Binding DisplayName}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
 		</StackPanel>
-		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom">
 			<Button Content="OK" Command="{ Binding OkCommand }" Margin="10" Padding="10"/>
 			<Button Content="Cancel" Command="{ Binding CancelCommand }" Margin="10" Padding="10"/>
 		</StackPanel>
-	</StackPanel>
+	</Grid>
 </Window>

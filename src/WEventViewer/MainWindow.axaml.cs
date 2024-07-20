@@ -20,9 +20,9 @@ public partial class MainWindow : Window
                 DataContext = vm
             };
             var ret = await dlg.ShowDialog<bool>(this);
-            if(DataContext is MainWindowViewModel mwvm)
+            if(ret && DataContext is MainWindowViewModel mwvm)
             {
-                WeakReferenceMessenger.Default.Send<LoadLogMessage>(new(vm.LogName, vm.PathType));
+                WeakReferenceMessenger.Default.Send<LoadLogMessage>(new(vm.LogName, vm.CurrentSelected.PathType));
             }
         });
         WeakReferenceMessenger.Default.Register<MainWindow, OpenErrorLogWindow>(this, async (mw, msg) =>
@@ -32,5 +32,13 @@ public partial class MainWindow : Window
             await dlg.ShowDialog(mw);
         });
         WeakReferenceMessenger.Default.Register<MainWindow, MainWindowCloseMessage>(this, (w, msg) => w.Close());
+    }
+
+    private void Window_SizeChanged(object? sender, Avalonia.Controls.SizeChangedEventArgs e)
+    {
+        if (DataContext is MainWindowViewModel mwvm)
+        {
+            mwvm.CurrentWindowHeight = this.Height;
+        }
     }
 }

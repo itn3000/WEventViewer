@@ -104,8 +104,8 @@ namespace WEventViewer.Model
     }
     internal class EventLogRepository
     {
-        ObservableCollection<LogRecord> records = [];
-        public ObservableCollection<LogRecord> Records => records;
+        RangedObservableCollection<LogRecord> records = [];
+        public RangedObservableCollection<LogRecord> Records => records;
         public void Clear()
         {
             records.Clear();
