@@ -18,6 +18,7 @@ using Avalonia;
 using System.ComponentModel;
 using System.Security.Cryptography.X509Certificates;
 using Avalonia.Threading;
+using Avalonia.Input;
 
 
 namespace WEventViewer.ViewModel
@@ -29,6 +30,7 @@ namespace WEventViewer.ViewModel
     }
     record class LoadLogMessage(string logName, PathType pathType);
     record class MainWindowCloseMessage();
+    record class OpenDetailedLogMessage();
     internal class MainWindowViewModel : ObservableRecipient
     {
         EventLogRepository _EventLogRepository;

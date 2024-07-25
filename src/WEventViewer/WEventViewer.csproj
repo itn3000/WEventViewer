@@ -21,4 +21,8 @@
     <PackageReference Include="R3Extensions.Avalonia" Version="1.1.13" />
     <PackageReference Include="System.Diagnostics.EventLog" Version="8.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="DetailedLogMessageWIndow.axaml" />
+  </ItemGroup>
 </Project>

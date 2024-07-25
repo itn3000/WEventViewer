@@ -1,6 +1,8 @@
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using System.Diagnostics;
+using WEventViewer.Model;
 using WEventViewer.ViewModel;
 
 namespace WEventViewer;
@@ -8,6 +10,7 @@ namespace WEventViewer;
 internal record class OpenErrorLogWindow(string message);
 public partial class MainWindow : Window
 {
+    DiagnosticListener _DS = new DiagnosticListener(nameof(MainWindow));
     public MainWindow()
     {
         DataContext = new MainWindowViewModel();
@@ -39,6 +42,23 @@ public partial class MainWindow : Window
         if (DataContext is MainWindowViewModel mwvm)
         {
             mwvm.CurrentWindowHeight = this.Height;
+        }
+    }
+
+    private async void DataGrid_DoubleTapped_1(object? sender, Avalonia.Input.TappedEventArgs e)
+    {
+        _DS.Write("OnDataGridDoubleTapped", e);
+        if(sender is DataGrid dataGrid)
+        {
+            if (dataGrid.SelectedItem is LogRecord record)
+            {
+                var vm = new DetailedLogViewModel(record);
+                var w = new DetailedLogMessageWIndow()
+                {
+                    DataContext = vm,
+                };
+                await w.ShowDialog(this);
+            }
         }
     }
 }

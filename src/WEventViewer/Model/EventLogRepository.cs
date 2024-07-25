@@ -36,7 +36,8 @@ namespace WEventViewer.Model
         int? ThreadId,
         DateTime? TimeCreated,
         byte? Version,
-        string Formatted);
+        string Formatted,
+        string XmlString);
     internal static class EventLogRepositoryExtension
     {
         static readonly DiagnosticListener _DS = new DiagnosticListener(nameof(EventLogRepositoryExtension));
@@ -51,7 +52,7 @@ namespace WEventViewer.Model
             return new LogRecord(record.ActivityId, record.Id, keywords, keywordDisplayNames, record.Level,
                 levelName, record.LogName, record.MachineName, record.Opcode, opcodeDisplayName, record.ProcessId,
                 record.Properties.Select(x => x.Value).ToArray(), record.ProviderId, record.ProviderName, record.Qualifiers, record.RecordId, record.RelatedActivityId,
-                record.Task, taskDisplayName, record.ThreadId, record.TimeCreated, record.Version, record.FormatDescription());
+                record.Task, taskDisplayName, record.ThreadId, record.TimeCreated, record.Version, record.FormatDescription(), record.ToXml());
         }
         static string[] GetKeywordsDisplayNames(EventRecord record)
         {

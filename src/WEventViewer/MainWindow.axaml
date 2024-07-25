@@ -27,8 +27,13 @@
 			  BorderBrush="Black"
 			  Margin="20"
 			  BorderThickness="1"
-			  IsReadOnly="True" ItemsSource="{Binding LogRecords}" VerticalAlignment="Stretch" MinHeight="200" Height="{Binding LogViewMaxHeight,Mode=OneWay}">
+			  IsReadOnly="True"
+			  ItemsSource="{Binding LogRecords}"
+			  VerticalAlignment="Stretch" MinHeight="200" 
+			  Height="{Binding LogViewMaxHeight,Mode=OneWay}"
+			  DoubleTapped="DataGrid_DoubleTapped_1">
 				<DataGrid.Columns>
+					
 					<DataGridTextColumn Header="TimeCreated" Binding="{Binding TimeCreated}"/>
 					<DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
 					<DataGridTextColumn Header="LogName" Binding="{Binding LogName}"/>

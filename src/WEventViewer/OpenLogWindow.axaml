@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:WEventViewer.ViewModel"
 		xmlns:local="using:WEventViewer"
-        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="350"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500"
         x:Class="WEventViewer.OpenLogWindow"
 		x:DataType="vm:OpenLogWindowViewModel"
         Title="OpenLogWindow">
@@ -17,49 +17,67 @@
 	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>
-			<RowDefinition Height="*"></RowDefinition>
-			<RowDefinition Height="*"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
-		<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Center">
-			<Label Content="LogName" 
-				   Margin="10,10,10,10" 
-				   HorizontalAlignment="Left" 
-				   VerticalAlignment="Center"
+		<StackPanel Margin="10" Orientation="Vertical" Grid.Row="0">
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Center">
+				<Label Content="LogName"
+					   Margin="10,10,10,10"
+					   HorizontalAlignment="Left"
+					   VerticalAlignment="Center"
 				   />
-			<TextBox HorizontalContentAlignment="Left"
-					 VerticalContentAlignment="Center"
-					 TextAlignment="Left" 
-					 Margin="10,10,10,10" 
-					 HorizontalAlignment="Right" 
-					 Text="{Binding LogName, Mode=TwoWay}"
-					 MinWidth="200" MaxWidth="1000"
+				<TextBox HorizontalContentAlignment="Left"
+						 VerticalContentAlignment="Center"
+						 TextAlignment="Left"
+						 Margin="10,10,10,10"
+						 HorizontalAlignment="Right"
+						 Text="{Binding LogName, Mode=TwoWay}"
+						 MinWidth="200" MaxWidth="1000"
 					 />
-		</StackPanel>
-		<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Center">
-			<Label Content="PathType" 
-				   Margin="10,10,10,10" 
-				   HorizontalAlignment="Left" 
-				   VerticalAlignment="Center"/>
-			<!--<TextBox Margin="10,10,10,10" 
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Center">
+				<Label Content="PathType"
+					   Margin="10,10,10,10"
+					   HorizontalAlignment="Left"
+					   VerticalAlignment="Center"/>
+				<!--<TextBox Margin="10,10,10,10" 
 					 HorizontalAlignment="Stretch" 
 					 TextAlignment="Left" 
 					 VerticalContentAlignment="Center"
 					 Text="{Binding Path=PathType, Mode=TwoWay,Converter={StaticResource PathTypeConverter}}"/>-->
-			<ComboBox
-				HorizontalAlignment="Stretch"
-				Margin="10"
-				ItemsSource="{Binding PathTypes}"
-				SelectedValue="{Binding CurrentSelected}"
+				<ComboBox
+					HorizontalAlignment="Stretch"
+					Margin="10"
+					ItemsSource="{Binding PathTypes}"
+					SelectedValue="{Binding CurrentSelected}"
 				>
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<Label Content="{Binding DisplayName}"/>
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<Label Content="{Binding DisplayName}"/>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+			</StackPanel>
+			<Expander Header="Advanced" Grid.Row="2" HorizontalAlignment="Stretch" MaxHeight="300">
+				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+					<StackPanel Orientation="Vertical" MaxHeight="500">
+						<CheckBox Name="UseRawQuery" Content="raw query" Margin="10"/>
+						<TextBox Name="RawQueryInput" Margin="10"/>
+						<Border BorderThickness="1" BorderBrush="Gray"/>
+						<CheckBox Name="UseTimeCreated" Content="show ranged time"/>
+						<StackPanel Orientation="Vertical">
+							<Label Content="Since:"/>
+							<DatePicker Name="BeginDate"/>
+							<TimePicker/>
+							<Label Content="Until:"/>
+							<DatePicker Name="EndDate"/>
+							<TimePicker/>
+						</StackPanel>
+					</StackPanel>
+				</ScrollViewer>
+			</Expander>
 		</StackPanel>
-		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom">
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Bottom">
 			<Button Content="OK" Command="{ Binding OkCommand }" Margin="10" Padding="10"/>
 			<Button Content="Cancel" Command="{ Binding CancelCommand }" Margin="10" Padding="10"/>
 		</StackPanel>
