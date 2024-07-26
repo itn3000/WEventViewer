@@ -110,7 +110,7 @@ namespace WEventViewer.ViewModel
                 IsOk = true;
                 WeakReferenceMessenger.Default.Send<OpenDialogResultMessage>(new(true));
             }, () => true);
-            CancelCommand = new RelayCommand(() => { 
+            CancelCommand = new RelayCommand(() => {
                 IsOk = false;
                 WeakReferenceMessenger.Default.Send<OpenDialogResultMessage>(new(false));
             }, () => true);
@@ -125,5 +125,179 @@ namespace WEventViewer.ViewModel
             LogNameWidth = WindowWidth;
         }
         public int LogNameWidth { get; set; }
+        bool _UseRawQuery = false;
+        public bool UseRawQuery
+        {
+            get => _UseRawQuery;
+            set
+            {
+                var changed = _UseRawQuery != value;
+                _UseRawQuery = value;
+                if (changed)
+                {
+                    if (PropertyChanged != null)
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs(nameof(UseRawQuery)));
+                    }
+                    if (_UseRawQuery && _UseTimeCreated)
+                    {
+                        UseTimeCreated = false;
+                    }
+                }
+            }
+        }
+        public string RawQuery { get; set; } = string.Empty;
+        public string QueryString => BuildQuery();
+        string BuildQuery()
+        {
+            if (UseRawQuery)
+            {
+                return RawQuery;
+            }
+            else
+            {
+                var conditions = new List<string>();
+                if (UseBeginDate)
+                {
+                    var d = BeginDateTime;
+                    if (d != null)
+                    {
+                        conditions.Add($"TimeCreated[@SystemTime >= '{d:yyyy-MM-ddTHH:mm:ss}']");
+                    }
+
+                }
+                if (UseEndDate)
+                {
+                    var d = EndDateTime;
+                    if (d != null)
+                    {
+                        conditions.Add($"TimeCreated[@SystemTime <= '{d:yyyy-MM-ddTHH:mm:ss}']");
+                    }
+                }
+                if (UseProviderNames && !string.IsNullOrEmpty(ProviderNames))
+                {
+                    var providerConditions = string.Join(" or ", ProviderNames.Split(',').Select(x => $"@Name = '{x.Trim()}'"));
+                    conditions.Add($"Provider[{providerConditions}]");
+                }
+                if (conditions.Count > 0)
+                {
+                    return $"*[System[{string.Join(" and ", conditions)}]]";
+                }
+            }
+            return string.Empty;
+        }
+        bool _UseTimeCreated = false;
+        public bool UseTimeCreated
+        {
+            get => _UseTimeCreated;
+            set
+            {
+                var changed = _UseTimeCreated != value;
+                _UseTimeCreated = value;
+                if (changed)
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseTimeCreated)));
+                    if (UseRawQuery && value)
+                    {
+                        UseRawQuery = false;
+                    }
+                }
+            }
+        }
+        bool _UseBeginDate = false;
+        public bool UseBeginDate
+        {
+            get => _UseBeginDate;
+            set
+            {
+                var changed = _UseBeginDate != value;
+                _UseBeginDate = value;
+                if (changed)
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseBeginDate)));
+                    if (UseRawQuery && value)
+                    {
+                        UseRawQuery = false;
+                    }
+                }
+            }
+        }
+        bool _UseEndDate = false;
+        public bool UseEndDate
+        {
+            get => _UseEndDate;
+            set
+            {
+                var changed = _UseEndDate != value;
+                _UseEndDate = value;
+                if (changed)
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseEndDate)));
+                    if (UseRawQuery && value)
+                    {
+                        UseRawQuery = false;
+                    }
+                }
+            }
+        }
+        public DateTime? BeginDateTime
+        {
+            get
+            {
+                if(BeginDate != null && DateTime.TryParse(BeginDate, out var d))
+                {
+                    if(BeginTime != null && DateTime.TryParse(BeginTime, out var t))
+                    {
+                        return new DateTime(d.Year, d.Month, d.Day, t.Hour, t.Minute, t.Second);
+                    }
+                    else
+                    {
+                        return d;
+                    }
+                }
+                return null;
+            }
+        }
+        public DateTime? EndDateTime
+        {
+            get
+            {
+                if (EndDate != null && DateTime.TryParse(EndDate, out var d))
+                {
+                    if (EndTime != null && DateTime.TryParse(EndTime, out var t))
+                    {
+                        return new DateTime(d.Year, d.Month, d.Day, t.Hour, t.Minute, t.Second);
+                    }
+                    else
+                    {
+                        return d;
+                    }
+                }
+                return null;
+            }
+        }
+        public string BeginDate { get; set; } = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+        public string BeginTime { get; set; } = "00:00:00";
+        public string EndDate { get; set; } = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+        public string EndTime { get; set; } = "00:00:00";
+        bool _UseProviderNames = false;
+        public bool UseProviderNames
+        {
+            get => _UseProviderNames;
+            set
+            {
+                var changed = _UseProviderNames != value;
+                _UseProviderNames = value;
+                if(changed)
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs($"{nameof(UseProviderNames)}"));
+                    if(UseRawQuery && value)
+                    {
+                        UseRawQuery = false;
+                    }
+                }
+            }
+        }
+        public string ProviderNames { get; set; } = string.Empty;
     }
 }

@@ -25,7 +25,7 @@ public partial class MainWindow : Window
             var ret = await dlg.ShowDialog<bool>(this);
             if(ret && DataContext is MainWindowViewModel mwvm)
             {
-                WeakReferenceMessenger.Default.Send<LoadLogMessage>(new(vm.LogName, vm.CurrentSelected.PathType));
+                WeakReferenceMessenger.Default.Send<LoadLogMessage>(new(vm.LogName, vm.CurrentSelected.PathType, vm.QueryString));
             }
         });
         WeakReferenceMessenger.Default.Register<MainWindow, OpenErrorLogWindow>(this, async (mw, msg) =>
@@ -45,9 +45,9 @@ public partial class MainWindow : Window
         }
     }
 
-    private async void DataGrid_DoubleTapped_1(object? sender, Avalonia.Input.TappedEventArgs e)
+    private void DataGrid_DoubleTapped_1(object? sender, Avalonia.Input.TappedEventArgs e)
     {
-        _DS.Write("OnDataGridDoubleTapped", e);
+        _DS.Write("OnDataGridDoubleTapped", new { e.Source, e.Pointer });
         if(sender is DataGrid dataGrid)
         {
             if (dataGrid.SelectedItem is LogRecord record)
@@ -57,7 +57,7 @@ public partial class MainWindow : Window
                 {
                     DataContext = vm,
                 };
-                await w.ShowDialog(this);
+                w.Show(this);
             }
         }
     }

@@ -28,7 +28,7 @@ namespace WEventViewer.ViewModel
         public string? LogName { get; set; }
         public PathType PathType { get; set; }
     }
-    record class LoadLogMessage(string logName, PathType pathType);
+    record class LoadLogMessage(string logName, PathType pathType, string query);
     record class MainWindowCloseMessage();
     record class OpenDetailedLogMessage();
     internal class MainWindowViewModel : ObservableRecipient
@@ -55,7 +55,7 @@ namespace WEventViewer.ViewModel
             }, () => LoadTask == null || LoadTask.IsCompleted);
             WeakReferenceMessenger.Default.Register<MainWindowViewModel, LoadLogMessage>(this, (vm, msg) =>
             {
-                LoadTask = _EventLogRepository.Load(msg.logName, msg.pathType, null, default, (lst) =>
+                LoadTask = _EventLogRepository.Load(msg.logName, msg.pathType, msg.query, default, (lst) =>
                 {
                     Dispatcher.UIThread.Invoke(() =>
                     {

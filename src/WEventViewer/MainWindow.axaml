@@ -35,8 +35,9 @@
 				<DataGrid.Columns>
 					
 					<DataGridTextColumn Header="TimeCreated" Binding="{Binding TimeCreated}"/>
-					<DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
 					<DataGridTextColumn Header="LogName" Binding="{Binding LogName}"/>
+					<DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+					<DataGridTextColumn Header="Level" Binding="{Binding Level}"/>
 					<DataGridTextColumn Header="Description" Binding="{Binding Formatted}"/>
 				</DataGrid.Columns>
 				<DataGrid.RowHeight>50</DataGrid.RowHeight>

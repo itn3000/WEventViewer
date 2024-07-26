@@ -32,6 +32,10 @@ namespace WEventViewer.ViewModel
                 doc.WriteTo(xw);
                 _FormattedXmlString = tw.ToString();
             }
+            else
+            {
+                _FormattedXmlString = string.Empty;
+            }
             if(logRecord != null)
             {
                 Items = new KeyValuePair<string, string?>[]
@@ -41,7 +45,7 @@ namespace WEventViewer.ViewModel
                     new("ActivityId", logRecord.ActivityId?.ToString()),
                     new("LogName", logRecord.LogName),
                     new("MachineName", logRecord.MachineName),
-                    new("Level", string.IsNullOrEmpty(logRecord.LevelDisplayName) ? logRecord.Level?.ToString() : logRecord.LevelDisplayName),
+                    new("Level", string.IsNullOrEmpty(logRecord.LevelDisplayName) ? logRecord.Level?.ToString() : $"{logRecord.LevelDisplayName}({logRecord.Level})"),
                     new("TimeCreated", logRecord.TimeCreated?.ToString("o")),
                     new("ProviderName", logRecord.ProviderName),
                     new("OpCode", logRecord.OpCode?.ToString("x")),

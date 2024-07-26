@@ -114,7 +114,8 @@ namespace WEventViewer.Model
         static readonly DiagnosticListener _DS = new DiagnosticListener(nameof(EventLogRepository));
         public async Task Load(string logName, PathType pathType, string? query, CancellationToken token, Action<IList<LogRecord>> dispatch)
         {
-            using var evreader = new EventLogReader(new EventLogQuery(logName, pathType, query));
+            var evtquery = !string.IsNullOrEmpty(query) ? new EventLogQuery(logName, pathType, query) : new EventLogQuery(logName, pathType);
+            using var evreader = new EventLogReader(evtquery);
             Clear();
             long count = 0;
             List<LogRecord> lst = [];

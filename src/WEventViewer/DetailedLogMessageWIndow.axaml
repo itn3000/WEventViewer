@@ -32,45 +32,11 @@
 							  >
 						
 					</DataGrid>
-					<!--<Grid Margin="10">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto"/>
-							<ColumnDefinition Width="*"/>
-						</Grid.ColumnDefinitions>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="Auto"/>
-						</Grid.RowDefinitions>
-						<Label Content="TimeCreated" Grid.Column="0" Grid.Row="0"/>
-						<TextBlock Text="{Binding TimeCreated}" Grid.Column="1" Grid.Row="0"/>
-						<Label Content="Level" Grid.Column="0" Grid.Row="1"/>
-						<TextBlock Text="{Binding LevelDisplayName}" Grid.Column="1" Grid.Row="1"/>
-						<Label Content="LogName" Grid.Column="0" Grid.Row="2"/>
-						<TextBlock Text="{Binding LogName}" Grid.Column="1" Grid.Row="2"/>
-						--><!--<StackPanel Orientation="Horizontal" Margin="10">
-						</StackPanel>
-						<StackPanel Orientation="Horizontal" Margin="10">
-							<Label Content="LogName"/>
-							<TextBlock Text="{Binding LogName}"/>
-						</StackPanel>
-						<StackPanel Orientation="Horizontal" Margin="10">
-							<Label Content="ProviderName"/>
-							<TextBlock Text="{Binding ProviderName}"/>
-						</StackPanel>
-						<StackPanel Orientation="Horizontal" Margin="10">
-							<Label Content="FormattedString"/>
-							<TextBlock Text="{Binding FormattedString}"/>
-						</StackPanel>--><!--
-					</Grid>-->
 				</ScrollViewer>
 			</TabItem>
 			<TabItem Header="XML">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-					<TextBlock Text="{Binding XmlString,Mode=OneTime}" Margin="10"/>
+					<SelectableTextBlock Text="{Binding XmlString,Mode=OneTime}" Margin="10"/>
 				</ScrollViewer>
 			</TabItem>
 		</TabControl>
