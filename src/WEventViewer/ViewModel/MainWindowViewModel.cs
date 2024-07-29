@@ -19,6 +19,7 @@ using System.ComponentModel;
 using System.Security.Cryptography.X509Certificates;
 using Avalonia.Threading;
 using Avalonia.Input;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace WEventViewer.ViewModel
@@ -35,9 +36,11 @@ namespace WEventViewer.ViewModel
     {
         EventLogRepository _EventLogRepository;
         Task LoadTask;
-        public MainWindowViewModel()
+        public MainWindowViewModel(): this(new EventLogRepository()) { }
+        public MainWindowViewModel(EventLogRepository eventLogRepository)
         {
             LoadTask = Task.CompletedTask;
+            _EventLogRepository = eventLogRepository;
             _Progress = new Progress<long>(l =>
             {
                 Dispatcher.UIThread.Invoke(() =>
@@ -46,7 +49,6 @@ namespace WEventViewer.ViewModel
                     OnPropertyChanged(nameof(LogRecords));
                 });
             });
-            _EventLogRepository = new EventLogRepository();
             OpenCommand = new RelayCommand(() =>
             {
                 LoadStatus = "Loading";

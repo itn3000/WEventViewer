@@ -1,6 +1,9 @@
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Diagnostics;
 using WEventViewer.Model;
 using WEventViewer.ViewModel;
@@ -11,9 +14,12 @@ internal record class OpenErrorLogWindow(string message);
 public partial class MainWindow : Window
 {
     DiagnosticListener _DS = new DiagnosticListener(nameof(MainWindow));
-    public MainWindow()
+    IServiceProvider? serviceProvider;
+    public MainWindow() : this(null) { }
+    public MainWindow(IServiceProvider? serviceProvider)
     {
-        DataContext = new MainWindowViewModel();
+        DataContext = serviceProvider != null ? serviceProvider.GetService<MainWindowViewModel>() : new MainWindowViewModel();
+        this.serviceProvider = serviceProvider;
         InitializeComponent();
         WeakReferenceMessenger.Default.Register<MainWindow, OpenLogRequest>(this, async (recpient, req) =>
         {
@@ -59,6 +65,28 @@ public partial class MainWindow : Window
                 };
                 w.Show(this);
             }
+        }
+    }
+
+    private void PrintProviderClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        _DS.Write("OnPrintProviderClick", new { e.Source, t = e.GetType() });
+        if (serviceProvider != null)
+        {
+            var vm = serviceProvider.GetService<ProviderNameWindowViewModel>();
+            var w = new ProviderNamesWindow() { DataContext = vm };
+            w.Show(this);
+        }
+
+    }
+
+    private void PrintLogNamesClick(object? sender, RoutedEventArgs e)
+    {
+        if (serviceProvider != null)
+        {
+            var vm = serviceProvider.GetService<LogNameViewModel>();
+            var w = new LogNameWindow() { DataContext = vm };
+            w.Show(this);
         }
     }
 }

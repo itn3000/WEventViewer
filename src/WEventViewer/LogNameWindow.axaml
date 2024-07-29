@@ -1,0 +1,37 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:vm="using:WEventViewer.ViewModel"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="WEventViewer.LogNameWindow"
+		x:DataType="vm:LogNameViewModel"
+		Loaded="Window_Loaded_1"
+        Title="LogNameWindow">
+	<Design.DataContext>
+		<vm:LogNameViewModel/>
+	</Design.DataContext>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="3*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
+		<Label Content="LogNames" Grid.Row="0" Margin="10"/>
+		<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Stretch">
+			<Label Content="Search:" Margin="10" VerticalAlignment="Center"/>
+			<TextBox Text="{Binding SearchString}" Margin="10" VerticalAlignment="Center"/>
+		</StackPanel>
+		<ScrollViewer Grid.Row="2">
+			<ListBox Name="LogNames" ItemsSource="{Binding LogNames}" MaxHeight="{Binding $parent.Bounds.Height}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<SelectableTextBlock Text="{Binding}"/>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</ScrollViewer>
+		<Button Name="CloseButton" Click="CloseButton_Click" Content="Close" HorizontalAlignment="Right" Margin="10" Grid.Row="3"/>
+	</Grid>
+</Window>

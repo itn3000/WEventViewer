@@ -18,9 +18,12 @@
 		<Menu DockPanel.Dock="Top" BorderBrush="Black" BorderThickness="1">
 			<MenuItem Header="_File">
 				<MenuItem Header="_Open" Command="{Binding OpenCommand}"/>
+				<MenuItem Header="Show _Providers" Name="PrintProviders" Click="PrintProviderClick"/>
+				<MenuItem Header="Show _LogNames" Name="PrintLogNames" Click="PrintLogNamesClick"/>
 				<MenuItem Header="_Close" Command="{Binding CloseCommand}"/>
 			</MenuItem>
 			<MenuItem Header="_About"/>
+			
 		</Menu>
 		<ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20" MinHeight="200" MinWidth="200" Height="{Binding Mode=OneWay,Path=ScrollViewerHeight}" Name="LogViewer">
 			<DataGrid
@@ -46,8 +49,6 @@
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20" VerticalAlignment="Bottom">
 			<Label Content="{Binding LogCount,Mode=OneWay}"/>
 			<Label Content="{Binding LoadStatus,Mode=OneWay}"/>
-			<Label Content="{Binding #LogViewer.Bounds.Height}"/>
-			<Label Content="{Binding ScrollViewerHeight}"/>
 		</StackPanel>
 	</StackPanel>
 </Window>

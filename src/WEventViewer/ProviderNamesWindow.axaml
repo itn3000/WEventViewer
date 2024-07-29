@@ -1,0 +1,37 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+		xmlns:vm="using:WEventViewer.ViewModel"
+        x:Class="WEventViewer.ProviderNamesWindow"
+		x:DataType="vm:ProviderNameWindowViewModel"
+		Loaded="Window_Loaded_1"
+        Title="ProviderNamesWindow">
+	<Design.DataContext>
+		<vm:ProviderNameWindowViewModel></vm:ProviderNameWindowViewModel>
+	</Design.DataContext>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="3*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
+		<Label Content="Providers" Grid.Row="0" Margin="10"/>
+		<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Stretch">
+			<Label Content="Search:" Margin="10" VerticalAlignment="Center"/>
+			<TextBox Text="{Binding SearchString}" Margin="10" VerticalAlignment="Center"/>
+		</StackPanel>
+		<ScrollViewer Grid.Row="2">
+			<ListBox Name="Providers" ItemsSource="{Binding Providers}" MaxHeight="{Binding $parent.Bounds.Height}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<SelectableTextBlock Text="{Binding}"/>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</ScrollViewer>
+		<Button Name="CloseButton" Click="Button_Click" Content="Close" HorizontalAlignment="Right" Margin="10" Grid.Row="3"/>
+	</Grid>
+</Window>

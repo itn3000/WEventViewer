@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Diagnostics.Eventing;
 using System.Diagnostics.Eventing.Reader;
 using System.Threading;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
@@ -145,6 +144,32 @@ namespace WEventViewer.Model
             if (lst.Count > 0)
             {
                 dispatch(lst);
+            }
+        }
+        public async Task LoadProviderNames(Action<IList<string>> callback, CancellationToken ct = default)
+        {
+            using var session = new EventLogSession();
+            foreach(var chunk in session.GetProviderNames().Order().Chunk(256))
+            {
+                if(ct.IsCancellationRequested)
+                {
+                    break;
+                }
+                callback(chunk);
+                await Task.Delay(10);
+            }
+        }
+        public async Task LoadLogNames(Action<IList<string>> callback, CancellationToken ct = default)
+        {
+            using var session = new EventLogSession();
+            foreach(var chunk in session.GetLogNames().Order().Chunk(256))
+            {
+                if (ct.IsCancellationRequested)
+                {
+                    break;
+                }
+                callback(chunk);
+                await Task.Delay(10);
             }
         }
     }
