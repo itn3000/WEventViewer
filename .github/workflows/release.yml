@@ -26,6 +26,8 @@ jobs:
   release:
     needs: build
     runs-on: "windows-latest"
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v1
       - name: download WEventViewer.zip
@@ -36,3 +38,4 @@ jobs:
         run: gh release upload ${{github.event.release.tag_name}} artifacts/WEventViewer-win-x64/WEventViewer-win-x64.zip
         env:
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
