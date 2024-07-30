@@ -11,14 +11,12 @@ using WEventViewer.Model;
 
 namespace WEventViewer.ViewModel
 {
-    internal class DetailedLogViewModel : INotifyPropertyChanged
+    internal class DetailedLogViewModel
     {
         public DetailedLogViewModel() : this(null)
         {
         }
         LogRecord? logRecord;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public DetailedLogViewModel(LogRecord? logRecord)
         {

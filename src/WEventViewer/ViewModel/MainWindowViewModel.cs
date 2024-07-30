@@ -20,6 +20,8 @@ using System.Security.Cryptography.X509Certificates;
 using Avalonia.Threading;
 using Avalonia.Input;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading;
+using R3;
 
 
 namespace WEventViewer.ViewModel
@@ -36,7 +38,9 @@ namespace WEventViewer.ViewModel
     {
         EventLogRepository _EventLogRepository;
         Task LoadTask;
-        public MainWindowViewModel(): this(new EventLogRepository()) { }
+        public MainWindowViewModel() : this(new EventLogRepository()) { }
+        CancellationTokenSource LoadCancellationToken = new CancellationTokenSource();
+        IDisposable IsLoadingSubscription;
         public MainWindowViewModel(EventLogRepository eventLogRepository)
         {
             LoadTask = Task.CompletedTask;
@@ -57,36 +61,55 @@ namespace WEventViewer.ViewModel
             }, () => LoadTask == null || LoadTask.IsCompleted);
             WeakReferenceMessenger.Default.Register<MainWindowViewModel, LoadLogMessage>(this, (vm, msg) =>
             {
-                LoadTask = _EventLogRepository.Load(msg.logName, msg.pathType, msg.query, default, (lst) =>
-                {
-                    Dispatcher.UIThread.Invoke(() =>
+                LoadCancellationToken.TryReset();
+                LoadTask = _EventLogRepository.Load(msg.logName, msg.pathType, msg.query, LoadCancellationToken.Token, (lst) =>
                     {
-                        _EventLogRepository.Records.AddRange(lst);
-                        OnPropertyChanged(nameof(LogCount));
-                        OnPropertyChanged(nameof(LogRecords));
-                    });
-                })
+                        Dispatcher.UIThread.Invoke(() =>
+                        {
+                            _EventLogRepository.Records.AddRange(lst);
+                            OnPropertyChanged(nameof(LogCount));
+                            OnPropertyChanged(nameof(LogRecords));
+                        });
+                    })
                     .ContinueWith(t =>
                     {
                         if (t.IsFaulted)
                         {
                             Dispatcher.UIThread.Invoke(() => WeakReferenceMessenger.Default.Send(new OpenErrorLogWindow(t.Exception.ToString())));
                         }
+                        var oldcts = LoadCancellationToken;
+                        LoadCancellationToken = new CancellationTokenSource();
+                        oldcts?.Dispose();
+
                         Dispatcher.UIThread.Invoke(() =>
                         {
                             LoadStatus = "Complete";
                             OnPropertyChanged(nameof(LoadStatus));
+                            _IsLoading.Value = false;
                         });
                     });
+                _IsLoading.Value = true;
             });
             CloseCommand = new RelayCommand(() => WeakReferenceMessenger.Default.Send(new MainWindowCloseMessage()));
+            LoadCancelCommand = new RelayCommand(() =>
+            {
+                if(!LoadCancellationToken.IsCancellationRequested)
+                {
+                    LoadCancellationToken.Cancel();
+                }
+            });
             LoadStatus = string.Empty;
+            IsLoadingSubscription = _IsLoading.Subscribe(_ =>
+            {
+                OnPropertyChanged(nameof(IsLoading));
+            });
         }
-
+        ReactiveProperty<bool> _IsLoading = new ReactiveProperty<bool>(false);
+        public bool IsLoading => _IsLoading.Value;
         Progress<long> _Progress;
         public ICommand OpenCommand { get; private set; }
         public ICommand CloseCommand { get; private set; }
-        long _LogCount;
+        public ICommand LoadCancelCommand { get; private set; }
         public long LogCount
         {
             get

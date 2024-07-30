@@ -49,6 +49,7 @@
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20" VerticalAlignment="Bottom">
 			<Label Content="{Binding LogCount,Mode=OneWay}"/>
 			<Label Content="{Binding LoadStatus,Mode=OneWay}"/>
+      <Button Content="Cancel" Command="{Binding LoadCancelCommand}" IsVisible="{Binding IsLoading}"/>
 		</StackPanel>
 	</StackPanel>
 </Window>
