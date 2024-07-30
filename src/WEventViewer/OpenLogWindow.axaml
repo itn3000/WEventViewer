@@ -20,36 +20,54 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<StackPanel Margin="10" Orientation="Vertical" Grid.Row="0" Name="OptionPanel">
-			<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Center">
+			<Grid HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 				<Label Content="LogName"
-					   Margin="10,10,10,10"
-					   HorizontalAlignment="Left"
-					   VerticalAlignment="Center"
+					     Margin="10,10,10,10"
+					     VerticalAlignment="Center"
+               HorizontalAlignment="Left"
+               Grid.Column="0"
 				   />
 				<TextBox HorizontalContentAlignment="Left"
-						 VerticalContentAlignment="Center"
-						 TextAlignment="Left"
-						 Margin="10,10,10,10"
-						 HorizontalAlignment="Right"
-						 Text="{Binding LogName, Mode=TwoWay}"
-						 MinWidth="200" MaxWidth="1000"
+						     VerticalContentAlignment="Center"
+                 HorizontalAlignment="Stretch"
+						     TextAlignment="Left"
+						     Margin="10,10,10,10"
+						     Text="{Binding LogName, Mode=TwoWay}"
+						     MinWidth="200" MaxWidth="1000"
+                 Grid.Column="1"
 					 />
-			</StackPanel>
-			<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+        <Button Name="OpenLogButton" 
+                Grid.Column="2" 
+                Content="Open" 
+                IsVisible="{Binding IsEnableFilePathOpenButton}"
+                Click="OnLogOpenButtonClicked"/>
+			</Grid>
+			<Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 				<Label Content="PathType"
-					   Margin="10,10,10,10"
-					   HorizontalAlignment="Left"
-					   VerticalAlignment="Center"/>
+					     Margin="10,10,10,10"
+					     HorizontalAlignment="Left"
+					     VerticalAlignment="Center"
+               Grid.Column="0"/>
 				<!--<TextBox Margin="10,10,10,10" 
 					 HorizontalAlignment="Stretch" 
 					 TextAlignment="Left" 
 					 VerticalContentAlignment="Center"
 					 Text="{Binding Path=PathType, Mode=TwoWay,Converter={StaticResource PathTypeConverter}}"/>-->
-				<ComboBox
+        <ComboBox
 					HorizontalAlignment="Stretch"
 					Margin="10"
 					ItemsSource="{Binding PathTypes}"
 					SelectedValue="{Binding CurrentSelected}"
+          Grid.Column="1"
 				>
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -57,7 +75,7 @@
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
-			</StackPanel>
+			</Grid>
 			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" MaxHeight="300" MaxWidth="{Binding #OptionPanel.Bounds.Width}">
 				<StackPanel Orientation="Vertical" Margin="10">
 					<CheckBox Name="UseRawQuery" Content="raw query" Margin="10" IsChecked="{Binding UseRawQuery}"/>

@@ -68,16 +68,17 @@ namespace WEventViewer.ViewModel
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LogName)));
             }
         }
-        PathType _PathType = PathType.LogName;
-        public PathType PathType
-        {
-            get => _PathType;
-            set
-            {
-                _PathType = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PathType)));
-            }
-        }
+        //PathType _PathType = PathType.LogName;
+        //public PathType PathType
+        //{
+        //    get => _PathType;
+        //    set
+        //    {
+        //        _PathType = value;
+        //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PathType)));
+        //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsEnableFilePathOpenButton)));
+        //    }
+        //}
         PathTypeDefinition _CurrentSelected = _PathTypes[0];
         public PathTypeDefinition CurrentSelected
         {
@@ -86,6 +87,7 @@ namespace WEventViewer.ViewModel
             {
                 _CurrentSelected = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSelected)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsEnableFilePathOpenButton)));
             }
         }
 
@@ -125,6 +127,7 @@ namespace WEventViewer.ViewModel
             LogNameWidth = WindowWidth;
         }
         public int LogNameWidth { get; set; }
+        public bool IsEnableFilePathOpenButton => CurrentSelected != null ? CurrentSelected.PathType == PathType.FilePath : false;
         bool _UseRawQuery = false;
         public bool UseRawQuery
         {
@@ -139,9 +142,11 @@ namespace WEventViewer.ViewModel
                     {
                         PropertyChanged(this, new PropertyChangedEventArgs(nameof(UseRawQuery)));
                     }
-                    if (_UseRawQuery && _UseTimeCreated)
+                    if (_UseRawQuery)
                     {
-                        UseTimeCreated = false;
+                        UseBeginDate = false;
+                        UseEndDate = false;
+                        UseProviderNames = false;
                     }
                 }
             }

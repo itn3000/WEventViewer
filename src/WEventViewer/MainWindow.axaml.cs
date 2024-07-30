@@ -75,7 +75,7 @@ public partial class MainWindow : Window
         {
             var vm = serviceProvider.GetService<ProviderNameWindowViewModel>();
             var w = new ProviderNamesWindow() { DataContext = vm };
-            w.Show(this);
+            w.Show();
         }
 
     }
@@ -86,6 +86,16 @@ public partial class MainWindow : Window
         {
             var vm = serviceProvider.GetService<LogNameViewModel>();
             var w = new LogNameWindow() { DataContext = vm };
+            w.Show();
+        }
+    }
+
+    private void AboutClick(object? sender, RoutedEventArgs e)
+    {
+        if (serviceProvider != null)
+        {
+            var vm = serviceProvider.GetService<AboutViewModel>();
+            var w = new AboutWindow() { DataContext = vm };
             w.Show(this);
         }
     }

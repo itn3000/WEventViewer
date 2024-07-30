@@ -25,6 +25,7 @@ public partial class App : Application
         collection.AddTransient<OpenLogWindow>();
         collection.AddTransient<ProviderNameWindowViewModel>();
         collection.AddTransient<LogNameViewModel>();
+        collection.AddTransient<AboutViewModel>();
         var serviceProvider = collection.BuildServiceProvider();
         var vm = serviceProvider.GetRequiredService<MainWindowViewModel>();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)

@@ -17,6 +17,6 @@
 		<ScrollViewer AllowAutoHide="True" VerticalScrollBarVisibility="Auto" Margin="10">
 			<TextBlock Text="{Binding Message}" TextWrapping="WrapWithOverflow"/>
 		</ScrollViewer>
-		<Button Content="Close" Margin="10"/>
+		<Button Content="Close" Margin="10" Command="{Binding CloseCommand}"/>
 	</StackPanel>
 </Window>
