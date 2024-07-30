@@ -13,12 +13,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "package-licenses", "package
 		LICENSE.txt = LICENSE.txt
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nukebuild", "build\nukebuild.csproj", "{4A68C488-E8DA-4D4E-A299-CC0C78EC5590}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A68C488-E8DA-4D4E-A299-CC0C78EC5590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A68C488-E8DA-4D4E-A299-CC0C78EC5590}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -27,6 +27,7 @@
 		</Menu>
 		<ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20" MinHeight="200" MinWidth="200" Height="{Binding Mode=OneWay,Path=ScrollViewerHeight}" Name="LogViewer">
 			<DataGrid
+			  Name="LogDataGrid"
 			  BorderBrush="Black"
 			  Margin="20"
 			  BorderThickness="1"
@@ -44,6 +45,11 @@
 					<DataGridTextColumn Header="Description" Binding="{Binding Formatted}"/>
 				</DataGrid.Columns>
 				<DataGrid.RowHeight>50</DataGrid.RowHeight>
+				<DataGrid.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Copy as XML" Click="CopyAsXmlClicked"/>
+					</ContextMenu>
+				</DataGrid.ContextMenu>
 			</DataGrid>
 		</ScrollViewer>
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20" VerticalAlignment="Bottom">

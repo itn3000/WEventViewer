@@ -5,6 +5,8 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Xml.Linq;
 using WEventViewer.Model;
 using WEventViewer.ViewModel;
 
@@ -98,5 +100,21 @@ public partial class MainWindow : Window
             var w = new AboutWindow() { DataContext = vm };
             w.Show(this);
         }
+    }
+
+    private async void CopyAsXmlClicked(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        _DS.Write("CopyAsXmlClicked", new { sender, e });
+        var rootelem = new XElement("Events");
+        foreach (var item in this.LogDataGrid.SelectedItems.OfType<LogRecord>())
+        {
+            if(item.XmlString == null)
+            {
+                continue;
+            }
+            rootelem.Add(XElement.Parse(item.XmlString));
+        }
+        var xmlstr = rootelem.ToString(SaveOptions.None);
+        await Clipboard.SetTextAsync(xmlstr);
     }
 }

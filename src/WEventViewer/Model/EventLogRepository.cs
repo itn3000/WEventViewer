@@ -56,11 +56,12 @@ namespace WEventViewer.Model
         {
             try
             {
-                return record.KeywordsDisplayNames.ToArray();
+                var ret = record.KeywordsDisplayNames.ToArray();
+                return ret;
             }
             catch (EventLogException ex)
             {
-                _DS.Write("Exception", new { Property = "KeyworkDisplayName", ex, record.LogName, record.ProviderName, record.Id });
+                _DS.Write("Exception", new { Property = "KeywordDisplayName", ex, record.LogName, record.ProviderName, record.Id });
                 return Array.Empty<string>();
             }
         }
@@ -80,7 +81,8 @@ namespace WEventViewer.Model
         {
             try
             {
-                return record.TaskDisplayName;
+                var name = record.TaskDisplayName;
+                return name;
             }
             catch (EventLogException ex)
             {
@@ -92,7 +94,8 @@ namespace WEventViewer.Model
         {
             try
             {
-                return record.OpcodeDisplayName;
+                var name = record.OpcodeDisplayName;
+                return name;
             }
             catch (EventLogException ex)
             {
