@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:WEventViewer.ViewModel"
 		xmlns:local="using:WEventViewer"
-        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
         x:Class="WEventViewer.OpenLogWindow"
 		x:DataType="vm:OpenLogWindowViewModel"
         Title="OpenLogWindow">
@@ -21,16 +21,16 @@
 		</Grid.RowDefinitions>
 		<StackPanel Margin="10" Orientation="Vertical" Grid.Row="0" Name="OptionPanel">
 			<Grid HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Center">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto"/>
-          <ColumnDefinition Width="*"/>
-          <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
 				<Label Content="LogName"
 					     Margin="10,10,10,10"
 					     VerticalAlignment="Center"
-               HorizontalAlignment="Left"
-               Grid.Column="0"
+		                 HorizontalAlignment="Left"
+					     Grid.Column="0"
 				   />
 				<TextBox HorizontalContentAlignment="Left"
 						     VerticalContentAlignment="Center"
@@ -41,17 +41,17 @@
 						     MinWidth="200" MaxWidth="1000"
                  Grid.Column="1"
 					 />
-        <Button Name="OpenLogButton" 
-                Grid.Column="2" 
-                Content="Open" 
-                IsVisible="{Binding IsEnableFilePathOpenButton}"
-                Click="OnLogOpenButtonClicked"/>
+				<Button Name="OpenLogButton"
+						Grid.Column="2"
+						Content="Open"
+						IsVisible="{Binding IsEnableFilePathOpenButton}"
+						Click="OnLogOpenButtonClicked"/>
 			</Grid>
 			<Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto"/>
-          <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
 				<Label Content="PathType"
 					     Margin="10,10,10,10"
 					     HorizontalAlignment="Left"
@@ -62,12 +62,12 @@
 					 TextAlignment="Left" 
 					 VerticalContentAlignment="Center"
 					 Text="{Binding Path=PathType, Mode=TwoWay,Converter={StaticResource PathTypeConverter}}"/>-->
-        <ComboBox
-					HorizontalAlignment="Stretch"
-					Margin="10"
-					ItemsSource="{Binding PathTypes}"
-					SelectedValue="{Binding CurrentSelected}"
-          Grid.Column="1"
+				<ComboBox
+							HorizontalAlignment="Stretch"
+							Margin="10"
+							ItemsSource="{Binding PathTypes}"
+							SelectedValue="{Binding CurrentSelected}"
+				  Grid.Column="1"
 				>
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -93,6 +93,14 @@
 					</StackPanel>
 					<CheckBox Content="filter providers(separeted by ',')" Margin="10" IsChecked="{Binding UseProviderNames}"/>
 					<TextBox Text="{Binding ProviderNames}" IsEnabled="{Binding UseProviderNames}"/>
+					<CheckBox Content="filter by level" Margin="10"/>
+					<StackPanel Orientation="Horizontal">
+						<CheckBox Content="Critical" Margin="10"/>
+						<CheckBox Content="Error" Margin="10"/>
+						<CheckBox Content="Warning" Margin="10"/>
+						<CheckBox Content="Information" Margin="10"/>
+						<CheckBox Content="Verbose" Margin="10"/>
+					</StackPanel>
 				</StackPanel>
 			</ScrollViewer>
 			<!--<Expander Header="Advanced" Grid.Row="2" HorizontalAlignment="Stretch" MaxHeight="300">
