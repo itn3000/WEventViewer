@@ -40,6 +40,7 @@
 					
 					<DataGridTextColumn Header="TimeCreated" Binding="{Binding TimeCreated}"/>
 					<DataGridTextColumn Header="LogName" Binding="{Binding LogName}"/>
+          <DataGridTextColumn Header="Provider" Binding="{Binding ProviderName}"/>
 					<DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
 					<DataGridTextColumn Header="Level" Binding="{Binding Level}"/>
 					<DataGridTextColumn Header="Description" Binding="{Binding Formatted}"/>

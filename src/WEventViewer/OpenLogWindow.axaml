@@ -93,15 +93,15 @@
 					</StackPanel>
 					<CheckBox Content="filter providers(separeted by ',')" Margin="10" IsChecked="{Binding UseProviderNames}"/>
 					<TextBox Text="{Binding ProviderNames}" IsEnabled="{Binding UseProviderNames}"/>
-					<CheckBox Content="filter by level" Margin="10"/>
-					<StackPanel Orientation="Horizontal">
-						<CheckBox Content="Critical" Margin="10"/>
-						<CheckBox Content="Error" Margin="10"/>
-						<CheckBox Content="Warning" Margin="10"/>
-						<CheckBox Content="Information" Margin="10"/>
-						<CheckBox Content="Verbose" Margin="10"/>
-					</StackPanel>
-				</StackPanel>
+          <CheckBox Content="filter by level" Margin="10" IsChecked="{Binding UseFilterByLevel}"/>
+          <StackPanel Orientation="Horizontal">
+            <CheckBox Content="Critical" Margin="10" IsChecked="{Binding IsCriticalChecked}" IsEnabled="{Binding UseFilterByLevel}"/>
+            <CheckBox Content="Error" Margin="10" IsChecked="{Binding IsErrorChecked}" IsEnabled="{Binding UseFilterByLevel}"/>
+            <CheckBox Content="Warning" Margin="10" IsChecked="{Binding IsWarningChecked}" IsEnabled="{Binding UseFilterByLevel}"/>
+            <CheckBox Content="Information" Margin="10" IsChecked="{Binding IsInformationChecked}" IsEnabled="{Binding UseFilterByLevel}"/>
+            <CheckBox Content="Verbose" Margin="10" IsChecked="{Binding IsVerboseChecked}" IsEnabled="{Binding UseFilterByLevel}"/>
+          </StackPanel>
+        </StackPanel>
 			</ScrollViewer>
 			<!--<Expander Header="Advanced" Grid.Row="2" HorizontalAlignment="Stretch" MaxHeight="300">
 			</Expander>-->

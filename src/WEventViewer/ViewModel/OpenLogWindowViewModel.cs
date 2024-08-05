@@ -147,6 +147,7 @@ namespace WEventViewer.ViewModel
                         UseBeginDate = false;
                         UseEndDate = false;
                         UseProviderNames = false;
+                        UseFilterByLevel = false;
                     }
                 }
             }
@@ -183,6 +184,34 @@ namespace WEventViewer.ViewModel
                 {
                     var providerConditions = string.Join(" or ", ProviderNames.Split(',').Select(x => $"@Name = '{x.Trim()}'"));
                     conditions.Add($"Provider[{providerConditions}]");
+                }
+                if (UseFilterByLevel)
+                {
+                    var levelConditions = new List<string>();
+                    if(IsCriticalChecked)
+                    {
+                        levelConditions.Add("Level=1");
+                    }
+                    if(IsErrorChecked)
+                    {
+                        levelConditions.Add("Level=2");
+                    }
+                    if(IsWarningChecked)
+                    {
+                        levelConditions.Add("Level=3");
+                    }
+                    if(IsInformationChecked)
+                    {
+                        levelConditions.Add("Level=4");
+                    }
+                    if(IsVerboseChecked)
+                    {
+                        levelConditions.Add("Level=5");
+                    }
+                    if (levelConditions.Count > 0)
+                    {
+                        conditions.Add($"({string.Join(" or ", levelConditions)})");
+                    }
                 }
                 if (conditions.Count > 0)
                 {
@@ -304,5 +333,28 @@ namespace WEventViewer.ViewModel
             }
         }
         public string ProviderNames { get; set; } = string.Empty;
+        bool _UseFilterByLevel = false;
+        public bool UseFilterByLevel
+        {
+            get => _UseFilterByLevel;
+            set
+            {
+                var changed = _UseFilterByLevel != value;
+                _UseFilterByLevel = value;
+                if (changed)
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseFilterByLevel)));
+                    if(UseRawQuery && value)
+                    {
+                        UseRawQuery = false;
+                    }
+                }
+            }
+        }
+        public bool IsCriticalChecked { get; set; } = false;
+        public bool IsErrorChecked { get; set; } = false;
+        public bool IsWarningChecked { get; set; } = false;
+        public bool IsInformationChecked { get; set; } = false;
+        public bool IsVerboseChecked {  get; set; } = false;
     }
 }
