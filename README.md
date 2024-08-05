@@ -14,3 +14,24 @@ This program is viewer for Windows EventLog
     * [raw query's format](https://learn.microsoft.com/en-us/windows/win32/wes/consuming-events)
 * double click on log, then open detailed log information
 * select log and right-click and select "Copy as XML" in context menu, then EventLog XML will be copied to clipboard
+
+# Screen Shots
+
+MainWindow:
+![MainWindow](img/MainWindow.png)
+
+OpenLogWindow:
+![OpenLogWindow](img/OpenLogWindow.png)
+
+
+# ChangeLog
+
+## 0.2.0
+
+* add eventlog level filter
+* add show providers on OpenLogWindow
+* add show lognames on OpenLogWindow
+
+## 0.1.0
+
+Initial Release
