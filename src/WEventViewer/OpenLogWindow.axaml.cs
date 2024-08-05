@@ -37,4 +37,20 @@ public partial class OpenLogWindow : Window
             }
         }
     }
+    public void OnShowLogNameClicked(object? sender, RoutedEventArgs routedEventArgs)
+    {
+        var logNameWindow = new LogNameWindow()
+        {
+            DataContext = new LogNameViewModel()
+        };
+        logNameWindow.Show();
+    }
+    public void OnShowProviderNamesClicked(object? sender, RoutedEventArgs routedEventArgs)
+    {
+        var w = new ProviderNamesWindow()
+        {
+            DataContext = new ProviderNameWindowViewModel()
+        };
+        w.Show();
+    }
 }

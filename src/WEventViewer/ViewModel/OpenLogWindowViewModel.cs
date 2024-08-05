@@ -68,17 +68,6 @@ namespace WEventViewer.ViewModel
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LogName)));
             }
         }
-        //PathType _PathType = PathType.LogName;
-        //public PathType PathType
-        //{
-        //    get => _PathType;
-        //    set
-        //    {
-        //        _PathType = value;
-        //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PathType)));
-        //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsEnableFilePathOpenButton)));
-        //    }
-        //}
         PathTypeDefinition _CurrentSelected = _PathTypes[0];
         public PathTypeDefinition CurrentSelected
         {
@@ -88,8 +77,11 @@ namespace WEventViewer.ViewModel
                 _CurrentSelected = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSelected)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsEnableFilePathOpenButton)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsOpenLogNameButtonEnabled)));
             }
         }
+
+        public bool IsOpenLogNameButtonEnabled => _CurrentSelected != null && _CurrentSelected.PathType == PathType.LogName;
 
         [RelayCommand]
         void OnPathTypeChanged(Avalonia.Controls.SelectionChangedEventArgs evargs)

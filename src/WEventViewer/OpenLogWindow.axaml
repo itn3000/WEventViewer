@@ -47,10 +47,18 @@
                  Grid.Column="1"
 					 />
         <Button Name="OpenLogButton"
-						Grid.Column="2"
-						Content="Open"
-						IsVisible="{Binding IsEnableFilePathOpenButton}"
-						Click="OnLogOpenButtonClicked"/>
+                Grid.Column="2"
+                Content="Open"
+                IsVisible="{Binding IsEnableFilePathOpenButton}"
+                IsEnabled="{Binding IsEnableFilePathOpenButton}"
+						    Click="OnLogOpenButtonClicked"/>
+        <Button Name="OpenLogNameButton"
+                Grid.Column="2"
+                Content="Show LogName"
+                IsVisible="{Binding IsOpenLogNameButtonEnabled}"
+                IsEnabled="{Binding IsOpenLogNameButtonEnabled}"
+                Click="OnShowLogNameClicked"
+                />
       </Grid>
       <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="1">
         <Grid.ColumnDefinitions>
@@ -97,7 +105,14 @@
             <TimePicker Name="EndTime" SelectedTime="{Binding EndTime}" IsEnabled="{Binding UseEndDate}"/>
           </StackPanel>
           <CheckBox Content="filter providers(separeted by ',')" Margin="10" IsChecked="{Binding UseProviderNames}"/>
-          <TextBox Text="{Binding ProviderNames}" IsEnabled="{Binding UseProviderNames}"/>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding ProviderNames}" IsEnabled="{Binding UseProviderNames}" Grid.Column="0" Margin="10"/>
+            <Button Content="Show Providers" Grid.Column="1" Margin="10" Click="OnShowProviderNamesClicked"/>
+          </Grid>
           <CheckBox Content="filter by level" Margin="10" IsChecked="{Binding UseFilterByLevel}"/>
           <StackPanel Orientation="Horizontal">
             <CheckBox Content="Critical" Margin="10" IsChecked="{Binding IsCriticalChecked}" IsEnabled="{Binding UseFilterByLevel}"/>
