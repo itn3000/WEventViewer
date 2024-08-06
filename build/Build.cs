@@ -13,8 +13,9 @@ using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.IO.CompressionTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using nukebuild;
 
-partial class Build : NukeBuild, NativeBuild
+partial class Build : NukeBuild, NativeBuild, Installer
 {
     /// Support plugins are available for:
     ///   - JetBrains ReSharper        https://nuke.build/resharper
