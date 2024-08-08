@@ -67,6 +67,10 @@ partial class Build : NukeBuild, NativeBuild, Installer
             var outdir = GetPublishOutputDirectory();
             outdir.ZipTo(outdir.Parent / $"WEventViewer-{Runtime}.zip", fileMode: System.IO.FileMode.Create);
         });
+    Target BuildInstaller => _ => _
+        .DependsOn(Publish, ((Installer)this).BuildInstallerBinary)
+        ;
+    
     AbsolutePath GetPublishOutputDirectory()
     {
         return RootDirectory / "dist" / "publish" / Configuration / Runtime / "WEventViewer";

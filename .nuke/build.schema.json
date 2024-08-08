@@ -71,6 +71,7 @@
             "type": "string",
             "enum": [
               "Archive",
+              "BuildInstaller",
               "BuildInstallerBinary",
               "Clean",
               "Compile",
@@ -88,6 +89,7 @@
             "type": "string",
             "enum": [
               "Archive",
+              "BuildInstaller",
               "BuildInstallerBinary",
               "Clean",
               "Compile",

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+	  <ComponentGroup Id="WEventViewerComponent" Directory="INSTALLFOLDER">
+		  <Component Id="WEventViewerExe" Guid="{2A695591-0376-4A46-8119-0BA0B862D63B}">
+			  <File Id="WEventViewer.exe" KeyPath="yes" Source="!(bindpath.bin)\WEventViewer.exe">
+				  
+			  </File>
+		  </Component>
+	  </ComponentGroup>
+	  <ComponentGroup Id="WEventViewerShortcutGroup" Directory="MyShortcutFolder">
+		  <Component Id="WEventViewerShortcut" Guid="{983A88F9-ECF3-471F-9837-3CAD1F5654C4}">
+			  <Shortcut Id="WEventViewer.lnk" Name="!(bind.Property.ProductName)" Directory="MyShortcutFolder" Target=""/>
+		  </Component>
+	  </ComponentGroup>
+  </Fragment>
+</Wix>

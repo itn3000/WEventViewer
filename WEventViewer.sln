@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{230BCF21-943
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "WEventViewer.Msi", "WEventViewer.Msi\WEventViewer.Msi.wixproj", "{61D89AD6-426B-4A48-998D-413309FE3A4D}"
+Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "WEventViewer.Installer", "WEventViewer.Installer\WEventViewer.Installer.wixproj", "{61D89AD6-426B-4A48-998D-413309FE3A4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

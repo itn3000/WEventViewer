@@ -1,0 +1,10 @@
+﻿<Project Sdk="WixToolset.Sdk/5.0.1">
+	<PropertyGroup Condition="'$(ExeArch)' == ''">
+		<ExeArch>win-x64</ExeArch>
+	</PropertyGroup>
+	<ItemGroup>
+		<BindPath Include="$(MSBuildThisFileDirectory)..\dist\publish\$(Configuration)\$(ExeArch)\WEventViewer">
+			<BindName>bin</BindName>
+		</BindPath>
+	</ItemGroup>
+</Project>

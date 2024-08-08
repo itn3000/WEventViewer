@@ -1,0 +1,11 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Package Name="WEventViewer" Manufacturer="itn3000" Version="1.0.0.0" UpgradeCode="61e8e723-2259-43eb-b767-cec8a5b7db1f">
+		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+
+		<Feature Id="Main">
+			<ComponentGroupRef Id="WEventViewerComponent" />
+			<ComponentGroupRef Id="WEventViewerShortcutGroup"/>
+
+		</Feature>
+	</Package>
+</Wix>

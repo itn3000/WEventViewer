@@ -28,9 +28,12 @@
 							  HeadersVisibility="Column"
 							  CanUserReorderColumns="True"
 							  CanUserResizeColumns="True"
-							  AutoGenerateColumns="True"
+							  AutoGenerateColumns="False"
 							  >
-						
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Key" Binding="{Binding Key}"/>
+							<DataGridTextColumn Header="Value" Binding="{Binding Value}"/>
+						</DataGrid.Columns>
 					</DataGrid>
 				</ScrollViewer>
 			</TabItem>

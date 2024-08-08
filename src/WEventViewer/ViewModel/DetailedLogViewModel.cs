@@ -11,6 +11,20 @@ using WEventViewer.Model;
 
 namespace WEventViewer.ViewModel
 {
+    internal class DetailedLogRecordValue
+    {
+
+        public string Key { get; set; } = string.Empty;
+        public string? Value { get; set; } = null;
+        public DetailedLogRecordValue() : this("", null)
+        {
+        }
+        public DetailedLogRecordValue(string key, string? value)
+        {
+            this.Key = key;
+            this.Value = value;
+        }
+    }
     internal class DetailedLogViewModel
     {
         public DetailedLogViewModel() : this(null)
@@ -36,7 +50,7 @@ namespace WEventViewer.ViewModel
             }
             if(logRecord != null)
             {
-                Items = new KeyValuePair<string, string?>[]
+                Items = new DetailedLogRecordValue[]
                 {
                     new("Id", logRecord.Id.ToString()),
                     new("RecordId", logRecord.RecordId?.ToString()),
@@ -54,7 +68,7 @@ namespace WEventViewer.ViewModel
                 };
             }
         }
-        public KeyValuePair<string, string?>[] Items { get; private set; } = Array.Empty<KeyValuePair<string, string?>>();
+        public IEnumerable<DetailedLogRecordValue> Items { get; private set; } = Array.Empty<DetailedLogRecordValue>();
         string _FormattedXmlString;
         public string XmlString => _FormattedXmlString;
         public string? FormattedString => logRecord?.Formatted;
