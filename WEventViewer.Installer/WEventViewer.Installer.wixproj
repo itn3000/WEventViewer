@@ -2,9 +2,18 @@
 	<PropertyGroup Condition="'$(ExeArch)' == ''">
 		<ExeArch>win-x64</ExeArch>
 	</PropertyGroup>
+	<PropertyGroup>
+		<DefineConstants>WEventViewerVersion=$(WEventViewerVersion)</DefineConstants>
+	</PropertyGroup>
 	<ItemGroup>
 		<BindPath Include="$(MSBuildThisFileDirectory)..\dist\publish\$(Configuration)\$(ExeArch)\WEventViewer">
 			<BindName>bin</BindName>
 		</BindPath>
+		<BindPath Include="$(MSBuildThisFileDirectory)..\">
+			<BindName>root</BindName>
+		</BindPath>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="WixToolset.UI.wixext" Version="5.0.1" />
 	</ItemGroup>
 </Project>

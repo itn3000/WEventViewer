@@ -17,12 +17,17 @@ jobs:
       with:
         dotnet-version: "8.0.300"
     - name: archiving dotnet tool
-      run: "powershell ./build.ps1 --target Archive --configuration Release --runtime \"${{matrix.rid}}\""
+      run: "powershell ./build.ps1 --target Archive BuildInstaller --configuration Release --runtime \"${{matrix.rid}}\""
     - name: upload artifacts
       uses: actions/upload-artifact@v1
       with:
         name: "WEventViewer-win-x64"
         path: "dist/publish/Release/${{matrix.rid}}/WEventViewer-${{matrix.rid}}.zip"
+    - name: upload installer
+      uses: actions/upload-artifact@v1
+      with:
+        name: "WEventViewer-installer"
+        path: "dist/installer/Release/en-US/WEventViewer.Installer.msi"
   release:
     needs: build
     runs-on: "windows-latest"
@@ -31,11 +36,16 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: download WEventViewer.zip
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: artifacts
       - name: upload zip to gh release
         run: gh release upload ${{github.event.release.tag_name}} artifacts/WEventViewer-win-x64/WEventViewer-win-x64.zip
+        env:
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: upload msi to gh release
+        run: gh release upload ${{github.event.release.tag_name}} artifacts/WEventViewer-installer/WEventViewer.Installer.msi
         env:
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

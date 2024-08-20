@@ -1,11 +1,15 @@
-﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-	<Package Name="WEventViewer" Manufacturer="itn3000" Version="1.0.0.0" UpgradeCode="61e8e723-2259-43eb-b767-cec8a5b7db1f">
-		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+	 xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+	<Package Name="WEventViewer" Manufacturer="itn3000" Version="$(WEventViewerVersion)" UpgradeCode="61e8e723-2259-43eb-b767-cec8a5b7db1f">
+		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" AllowSameVersionUpgrades="yes" />
+		<ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER"/>
+		<WixVariable Id="WixUILicenseRtf" Value="!(bindpath.root)\LICENSE.rtf"/>
 
 		<Feature Id="Main">
 			<ComponentGroupRef Id="WEventViewerComponent" />
 			<ComponentGroupRef Id="WEventViewerShortcutGroup"/>
 
 		</Feature>
+		<Media Id="1" Cabinet="cab1.cab" EmbedCab="yes"/>
 	</Package>
 </Wix>

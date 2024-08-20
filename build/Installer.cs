@@ -14,13 +14,5 @@ namespace nukebuild
     {
         [Parameter]
         public string Configuration => TryGetValue(() => Configuration) ?? "Release";
-        Target BuildInstallerBinary => _ => _
-            .Executes(() =>
-            {
-                var project = RootDirectory / "WEventViewer.Installer" / "WEventViewer.Installer.wixproj";
-                DotNetBuild(cfg => cfg.SetProjectFile(project)
-                    .SetProcessWorkingDirectory(project.Parent)
-                    .SetConfiguration(Configuration));
-            });
     }
 }

@@ -115,6 +115,9 @@ public partial class MainWindow : Window
             rootelem.Add(XElement.Parse(item.XmlString));
         }
         var xmlstr = rootelem.ToString(SaveOptions.None);
-        await Clipboard.SetTextAsync(xmlstr);
+        if (Clipboard != null)
+        {
+            await Clipboard.SetTextAsync(xmlstr);
+        }
     }
 }

@@ -30,6 +30,7 @@ partial class Build : NukeBuild, NativeBuild, Installer
 
     Target Clean => _ => _
         .Before(Restore)
+        .Before(Publish, BuildInstaller)
         .Executes(() =>
         {
         });
@@ -68,9 +69,19 @@ partial class Build : NukeBuild, NativeBuild, Installer
             outdir.ZipTo(outdir.Parent / $"WEventViewer-{Runtime}.zip", fileMode: System.IO.FileMode.Create);
         });
     Target BuildInstaller => _ => _
-        .DependsOn(Publish, ((Installer)this).BuildInstallerBinary)
+        .DependsOn(Publish, BuildInstallerBinary)
         ;
-    
+    Target BuildInstallerBinary => _ => _
+        .After(Publish)
+        .Executes(() =>
+        {
+            var project = RootDirectory / "WEventViewer.Installer" / "WEventViewer.Installer.wixproj";
+            var outputdir = RootDirectory / "dist" / "installer" / Configuration;
+            DotNetBuild(cfg => cfg.SetProjectFile(project)
+                .SetProcessWorkingDirectory(project.Parent)
+                .SetConfiguration(Configuration)
+                .SetOutputDirectory(outputdir));
+        });
     AbsolutePath GetPublishOutputDirectory()
     {
         return RootDirectory / "dist" / "publish" / Configuration / Runtime / "WEventViewer";

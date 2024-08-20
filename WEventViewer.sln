@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
+# 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DBEA2004-5AF0-43F4-9B6A-F299056D87B7}"
@@ -16,6 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nukebuild", "build\nukebuil
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{230BCF21-9433-4D4B-89C9-87FAAC0657A4}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -33,6 +34,22 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|x64.Build.0 = Debug|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|x86.Build.0 = Debug|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|ARM64.Build.0 = Release|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|x64.ActiveCfg = Release|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|x64.Build.0 = Release|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|x86.ActiveCfg = Release|Any CPU
+		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|x86.Build.0 = Release|Any CPU
 		{4A68C488-E8DA-4D4E-A299-CC0C78EC5590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A68C488-E8DA-4D4E-A299-CC0C78EC5590}.Debug|ARM64.ActiveCfg = Debug|Any CPU
 		{4A68C488-E8DA-4D4E-A299-CC0C78EC5590}.Debug|ARM64.Build.0 = Debug|Any CPU
@@ -63,29 +80,13 @@ Global
 		{61D89AD6-426B-4A48-998D-413309FE3A4D}.Release|x64.Build.0 = Release|x64
 		{61D89AD6-426B-4A48-998D-413309FE3A4D}.Release|x86.ActiveCfg = Release|x86
 		{61D89AD6-426B-4A48-998D-413309FE3A4D}.Release|x86.Build.0 = Release|x86
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|x64.Build.0 = Debug|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Debug|x86.Build.0 = Debug|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|ARM64.Build.0 = Release|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|x64.ActiveCfg = Release|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|x64.Build.0 = Release|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|x86.ActiveCfg = Release|Any CPU
-		{8341A7C3-A124-45AC-88F3-943943A81854}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{61D89AD6-426B-4A48-998D-413309FE3A4D} = {DBEA2004-5AF0-43F4-9B6A-F299056D87B7}
 		{8341A7C3-A124-45AC-88F3-943943A81854} = {DBEA2004-5AF0-43F4-9B6A-F299056D87B7}
+		{61D89AD6-426B-4A48-998D-413309FE3A4D} = {DBEA2004-5AF0-43F4-9B6A-F299056D87B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {89C2DE27-9B07-431C-B61D-5E6A13475203}
