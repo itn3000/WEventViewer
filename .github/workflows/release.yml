@@ -39,6 +39,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts
+          name: WEventViewer-win-x64
+      - name: download WEventViewer.Installer
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          name: WEventViewer-installer
       - name: list files
         run: "dir /s artifacts"
       - name: upload zip to gh release
