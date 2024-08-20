@@ -39,6 +39,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts
+      - name: list files
+        run: "dir /s artifacts"
       - name: upload zip to gh release
         run: gh release upload ${{github.event.release.tag_name}} artifacts/WEventViewer-win-x64/WEventViewer-win-x64.zip
         env:
