@@ -26,6 +26,10 @@ OpenLogWindow:
 
 # ChangeLog
 
+## 0.3.0
+
+* add MSI installer to release
+
 ## 0.2.0
 
 * add eventlog level filter
