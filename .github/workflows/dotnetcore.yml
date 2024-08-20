@@ -26,5 +26,5 @@ jobs:
     - name: upload installer
       uses: actions/upload-artifact@v1
       with:
-        name: "WEventViewer-win-x64"
+        name: "WEventViewer-Installer"
         path: "dist/installer/Release/en-US/WEventViewer.Installer.msi"
