@@ -21,7 +21,10 @@ public partial class App : Application
         collection.AddSingleton<EventLogRepository>();
         collection.AddSingleton<IViewModelFactory, ViewModelFactoryServiceProvider>(provider => new ViewModelFactoryServiceProvider(provider));
         collection.AddSingleton<MainWindowViewModel>();
-        collection.AddSingleton<OpenLogWindowViewModel>();
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime classic)
+        {
+            collection.AddSingleton<OpenLogWindowViewModel>(provider => new OpenLogWindowViewModel() { });
+        }
         collection.AddSingleton<MainWindow>(provider =>
         {
             return new MainWindow(provider.GetRequiredService<IViewModelFactory>())
