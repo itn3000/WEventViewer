@@ -13,32 +13,35 @@ using WEventViewer.ViewModel;
 namespace WEventViewer;
 
 internal record class OpenErrorLogWindow(string message);
-public partial class MainWindow : Window
+internal partial class MainWindow : Window
 {
     DiagnosticListener _DS = new DiagnosticListener(nameof(MainWindow));
-    IServiceProvider? serviceProvider;
+    IViewModelFactory? _viewModelFactory;
     public MainWindow() : this(null) { }
-    public MainWindow(IServiceProvider? serviceProvider)
+    public MainWindow(IViewModelFactory? viewModelFactory)
     {
-        DataContext = serviceProvider != null ? serviceProvider.GetService<MainWindowViewModel>() : new MainWindowViewModel();
-        this.serviceProvider = serviceProvider;
+        DataContext = viewModelFactory != null ? viewModelFactory.GetMainWindowViewModel() : new MainWindowViewModel(new EventLogRepository(), new StubViewModelFactory());
+        this._viewModelFactory = viewModelFactory;
         InitializeComponent();
         WeakReferenceMessenger.Default.Register<MainWindow, OpenLogRequest>(this, async (recpient, req) =>
         {
-            var vm = new OpenLogWindowViewModel();
-            var dlg = new OpenLogWindow()
+            var vm = _viewModelFactory?.GetOpenLogWindowViewMode();
+            if (vm != null)
             {
-                DataContext = vm
-            };
-            var ret = await dlg.ShowDialog<bool>(this);
-            if(ret && DataContext is MainWindowViewModel mwvm)
-            {
-                WeakReferenceMessenger.Default.Send<LoadLogMessage>(new(vm.LogName, vm.CurrentSelected.PathType, vm.QueryString));
+                var dlg = new OpenLogWindow()
+                {
+                    DataContext = vm
+                };
+                var ret = await dlg.ShowDialog<bool>(this);
+                if (ret && DataContext is MainWindowViewModel mwvm)
+                {
+                    WeakReferenceMessenger.Default.Send<LoadLogMessage>(new(vm.LogName, vm.CurrentSelected.PathType, vm.QueryString));
+                }
             }
         });
         WeakReferenceMessenger.Default.Register<MainWindow, OpenErrorLogWindow>(this, async (mw, msg) =>
         {
-            var vm = new ErrorWindowViewModel(msg.message);
+            var vm = _viewModelFactory?.GetErrorViewWindowModel(msg.message);
             var dlg = new ErrorWindow() { DataContext = vm };
             await dlg.ShowDialog(mw);
         });
@@ -60,7 +63,7 @@ public partial class MainWindow : Window
         {
             if (dataGrid.SelectedItem is LogRecord record)
             {
-                var vm = new DetailedLogViewModel(record);
+                var vm = _viewModelFactory?.GetDetailedLogViewModel(record);
                 var w = new DetailedLogMessageWIndow()
                 {
                     DataContext = vm,
@@ -73,9 +76,9 @@ public partial class MainWindow : Window
     private void PrintProviderClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         _DS.Write("OnPrintProviderClick", new { e.Source, t = e.GetType() });
-        if (serviceProvider != null)
+        if (_viewModelFactory != null)
         {
-            var vm = serviceProvider.GetService<ProviderNameWindowViewModel>();
+            var vm = _viewModelFactory.GetProviderNameWindowViewModel();
             var w = new ProviderNamesWindow() { DataContext = vm };
             w.Show();
         }
@@ -84,9 +87,9 @@ public partial class MainWindow : Window
 
     private void PrintLogNamesClick(object? sender, RoutedEventArgs e)
     {
-        if (serviceProvider != null)
+        if (_viewModelFactory != null)
         {
-            var vm = serviceProvider.GetService<LogNameViewModel>();
+            var vm = _viewModelFactory.GetLogNameViewModel();
             var w = new LogNameWindow() { DataContext = vm };
             w.Show();
         }
@@ -94,9 +97,9 @@ public partial class MainWindow : Window
 
     private void AboutClick(object? sender, RoutedEventArgs e)
     {
-        if (serviceProvider != null)
+        if (_viewModelFactory != null)
         {
-            var vm = serviceProvider.GetService<AboutViewModel>();
+            var vm = _viewModelFactory.GetAboutViewModel();
             var w = new AboutWindow() { DataContext = vm };
             w.Show(this);
         }

@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection.Metadata.Ecma335;
 using WEventViewer.Model;
 using WEventViewer.ViewModel;
 
@@ -18,10 +19,18 @@ public partial class App : Application
     {
         var collection = new ServiceCollection();
         collection.AddSingleton<EventLogRepository>();
-        collection.AddSingleton<MainWindowViewModel>(provider => new MainWindowViewModel(provider.GetRequiredService<EventLogRepository>()));
-        collection.AddTransient<ErrorWindow>();
+        collection.AddSingleton<IViewModelFactory, ViewModelFactoryServiceProvider>(provider => new ViewModelFactoryServiceProvider(provider));
+        collection.AddSingleton<MainWindowViewModel>();
+        collection.AddSingleton<OpenLogWindowViewModel>();
+        collection.AddSingleton<MainWindow>(provider =>
+        {
+            return new MainWindow(provider.GetRequiredService<IViewModelFactory>())
+            {
+                DataContext = provider.GetRequiredService<MainWindowViewModel>()
+            };
+        });
         collection.AddTransient<ErrorWindowViewModel>();
-        collection.AddTransient<OpenLogWindowViewModel>();
+        collection.AddTransient<ErrorWindow>();
         collection.AddTransient<OpenLogWindow>();
         collection.AddTransient<ProviderNameWindowViewModel>();
         collection.AddTransient<LogNameViewModel>();
@@ -30,11 +39,11 @@ public partial class App : Application
         var vm = serviceProvider.GetRequiredService<MainWindowViewModel>();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow(serviceProvider) { DataContext = vm };
+            desktop.MainWindow = serviceProvider.GetRequiredService<MainWindow>();
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            singleViewPlatform.MainView = new MainWindow(serviceProvider) { DataContext = vm }; ;
+            singleViewPlatform.MainView = serviceProvider.GetRequiredService<MainWindow>();
         }
 
         base.OnFrameworkInitializationCompleted();

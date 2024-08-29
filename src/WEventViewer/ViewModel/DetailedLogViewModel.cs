@@ -31,8 +31,7 @@ namespace WEventViewer.ViewModel
         {
         }
         LogRecord? logRecord;
-
-        public DetailedLogViewModel(LogRecord? logRecord)
+        public void Initialize(LogRecord? logRecord)
         {
             this.logRecord = logRecord;
             if (logRecord != null && !string.IsNullOrEmpty(logRecord.XmlString))
@@ -48,7 +47,7 @@ namespace WEventViewer.ViewModel
             {
                 _FormattedXmlString = string.Empty;
             }
-            if(logRecord != null)
+            if (logRecord != null)
             {
                 Items = new DetailedLogRecordValue[]
                 {
@@ -67,6 +66,12 @@ namespace WEventViewer.ViewModel
                     new("Description", logRecord.Formatted),
                 };
             }
+        }
+
+        public DetailedLogViewModel(LogRecord? logRecord)
+        {
+            _FormattedXmlString = string.Empty;
+            Initialize(logRecord);
         }
         public IEnumerable<DetailedLogRecordValue> Items { get; private set; } = Array.Empty<DetailedLogRecordValue>();
         string _FormattedXmlString;

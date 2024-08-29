@@ -37,14 +37,16 @@ namespace WEventViewer.ViewModel
     internal class MainWindowViewModel : ObservableRecipient
     {
         EventLogRepository _EventLogRepository;
+        IViewModelFactory? _ViewModelFactory;
         Task LoadTask;
-        public MainWindowViewModel() : this(new EventLogRepository()) { }
         CancellationTokenSource LoadCancellationToken = new CancellationTokenSource();
         IDisposable IsLoadingSubscription;
-        public MainWindowViewModel(EventLogRepository eventLogRepository)
+        public MainWindowViewModel() : this(null, null) { }
+        public MainWindowViewModel(EventLogRepository? eventLogRepository, IViewModelFactory? viewModelFactory)
         {
             LoadTask = Task.CompletedTask;
-            _EventLogRepository = eventLogRepository;
+            _EventLogRepository = eventLogRepository != null ? eventLogRepository : new EventLogRepository();
+            _ViewModelFactory = viewModelFactory;
             _Progress = new Progress<long>(l =>
             {
                 Dispatcher.UIThread.Invoke(() =>
