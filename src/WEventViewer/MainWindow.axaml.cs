@@ -123,4 +123,12 @@ internal partial class MainWindow : Window
             await Clipboard.SetTextAsync(xmlstr);
         }
     }
+
+    private void Window_Loaded_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (DataContext is MainWindowViewModel vm)
+        {
+            vm.OpenCommand.Execute(null);
+        }
+    }
 }

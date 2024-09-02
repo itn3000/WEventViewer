@@ -26,6 +26,11 @@ OpenLogWindow:
 
 # ChangeLog
 
+## 0.4.0
+
+* open OpenLogWindow at first for convenience
+* log filter can be preset by commandline now
+
 ## 0.3.0
 
 * add MSI installer to release

@@ -9,7 +9,8 @@
 		MinHeight="300"
 		MinWidth="400"
 		Height="{Binding Mode=OneWayToSource,Path=CurrentWindowHeight}"
-        Title="WEventViewer">
+        Title="WEventViewer"
+		Loaded="Window_Loaded_1">
 	<Design.DataContext>
 		<vm:MainWindowViewModel></vm:MainWindowViewModel>
 	</Design.DataContext>
