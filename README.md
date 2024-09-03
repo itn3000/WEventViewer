@@ -15,6 +15,17 @@ This program is viewer for Windows EventLog
 * double click on log, then open detailed log information
 * select log and right-click and select "Copy as XML" in context menu, then EventLog XML will be copied to clipboard
 
+## Commandline Options
+
+* `-n/--logname LOGNAME`: target LogName or exported windows eventlog file path
+* `-t/--logtype LOGTYPE`: LogName kind, 'logname': from Windows EventLog store, 'filepath': exported Windows Event Log file(*.evtx) 
+* `-l/--loglevel LOGLEVEL`: LogLevel filter: available values: critical,error,warning,information,verbose
+* `-p/--provider PROVIDER`: LogProvider filter
+* `-b/--begin BEGINDATE`: createAt filter begin time
+* `-e/--end ENDDATE`: createAt filter end time
+* `-r/--raw RAW_QUERY`: raw filtering query
+* `-h/--help`: display help window
+
 # Screen Shots
 
 MainWindow:

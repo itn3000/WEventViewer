@@ -1,0 +1,26 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:vm="using:WEventViewer.ViewModel"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+        x:Class="WEventViewer.HelpWindow"
+		x:DataType="vm:HelpWindowViewModel"
+        Title="HelpWindow">
+	<Design.DataContext>
+		<vm:HelpWindowViewModel/>
+	</Design.DataContext>
+	<Grid HorizontalAlignment="Stretch">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		<ScrollViewer Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" MaxWidth="600" HorizontalScrollBarVisibility="Auto">
+			<TextBlock Text="{Binding HelpMessage}" HorizontalAlignment="Left" MaxWidth="{Binding $parent.Bounds.Width}"/>
+		</ScrollViewer>
+		<Button Name="CloseButton" Content="Close" HorizontalAlignment="Right" Grid.Row="1" Click="Button_Click"/>
+	</Grid>
+</Window>

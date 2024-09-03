@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "WEventViewer": {
+      "commandName": "Project"
+    },
+    "WEventViewer-Help": {
+      "commandName": "Project",
+      "commandLineArgs": "--help"
+    }
+  }
+}
